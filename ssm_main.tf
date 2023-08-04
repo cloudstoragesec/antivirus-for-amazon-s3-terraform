@@ -91,7 +91,7 @@ resource "aws_ssm_parameter" "EmailParameter" {
 resource "aws_ssm_parameter" "UserNameParameter" {
   name  = "/${var.parameter_prefix}-${aws_appconfig_application.AppConfigAgentApplication.id}/Config/UserName"
   type  = "String"
-  value = var.UserName
+  value = var.Username
 }
 
 resource "aws_ssm_parameter" "StackNameParameter" {

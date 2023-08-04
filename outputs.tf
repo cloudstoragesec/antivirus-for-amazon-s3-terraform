@@ -9,9 +9,9 @@ output "LBWebAddress" {
   value       = "${var.configure_load_balancer}" ? ["https://${aws_lb.LoadBalancer[0].dns_name}"] : null
 }
 
-output "UserName" {
+output "Username" {
   description = "User Name used to log in to console"
-  value       = var.UserName
+  value       = var.Username
 }
 
 output "Password" {

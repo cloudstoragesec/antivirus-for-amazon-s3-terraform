@@ -108,7 +108,7 @@ resource "aws_cognito_user_group" "UserPoolPrimaryGroup" {
 
 resource "aws_cognito_user" "UserPoolUser" {
   user_pool_id             = aws_cognito_user_pool.UserPool.id
-  username                 = var.UserName
+  username                 = var.Username
   desired_delivery_mediums = ["EMAIL"]
   attributes = {
     email          = "${var.Email}"

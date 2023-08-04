@@ -106,31 +106,7 @@ variable "hc_path" {
   default     = "/Account/SignIn"
 }
 
-variable "hosted_zone_name" {
-  description = "Enter the hosted zone domain name for adding an entry to Route53. Only needed if registering dns in Route53."
-  type        = string
-  default     = "domain-for-your-ssl-cert.com"
-}
-
-variable "hosted_zone_id" {
-  description = "Enter the hosted zone ID for adding an entry to Route53. Only needed if registering dns in Route53 (Optional, only needed if you have multiple zones with the same name)."
-  type        = string
-  default     = "ZXXXXDEFAULTXXXXXXXXX"
-}
-
-variable "hosted_sub_domain" {
-  description = "Enter the subdomain for adding an entry to Route53. Only needed if registering dns in Route53."
-  type        = string
-  default     = "subdomain"
-}
-
-variable "attribute_list" {
-  description = "list of attributes"
-  type        = list(any)
-  default     = []
-}
-
-variable "UserName" {
+variable "Username" {
   description = "Initial user name for the Console management website"
   type        = string
   default     = "admin"
@@ -158,12 +134,6 @@ variable "ConsoleAutoAssignPublicIp" {
   description = "Should a public IP be assigned to the Console? (WARNING: do not set to disabled unless you have configured your AWS VPC in a manner that would still allow access to the console.)"
   type        = string
   default     = "true"
-}
-
-variable "tags_custom" {
-  description = "Customized Tags Key Name"
-  type        = string
-  default     = "CloudStorageSec"
 }
 
 variable "ecr_account" {
