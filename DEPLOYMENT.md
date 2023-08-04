@@ -8,6 +8,14 @@ The state of the provided templates may not be current with the CloudFormation t
 
 ## Pre-Requisites
 
+### Subscribe to AWS Marketplace Listing
+
+In order to run the product, you must be subscribed to one of Cloud Storage Security's listings in AWS Marketplace.
+
+Our primary listing may be found at the link below. Click `Continue to Subscribe`, and continue until you reach the deployment step. This process will be run instead of the CloudFormation deployment that is described in the listing.  
+
+[Antivirus for Amazon S3 - PAYG with 30 DAY FREE TRIAL](https://aws.amazon.com/marketplace/pp/prodview-q7oc4shdnpc4w)
+
 ### AWS AppConfig
 
 #### Details
