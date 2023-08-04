@@ -1,15 +1,11 @@
 resource "aws_sns_topic" "NotificationsTopic" {
-  name            = "${var.service_name}NotificationsTopic-${aws_appconfig_application.AppConfigAgentApplication.id}"
-  tags = {(join("-",["${var.service_name}","${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConsoleSnsTopic"}
-  
-
+  name = "${var.service_name}NotificationsTopic-${aws_appconfig_application.AppConfigAgentApplication.id}"
+  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConsoleSnsTopic" }
 }
 
 resource "aws_sns_topic_policy" "NotificationsTopicPolicy" {
-  arn = aws_sns_topic.NotificationsTopic.arn
+  arn    = aws_sns_topic.NotificationsTopic.arn
   policy = data.aws_iam_policy_document.TopicPolicyDocument.json
-#  tags = {(join("-",["${var.service_name}","${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConsoleSnsTopicPolicy"}
-  
 }
 
 data "aws_iam_policy_document" "TopicPolicyDocument" {
@@ -17,14 +13,13 @@ data "aws_iam_policy_document" "TopicPolicyDocument" {
 
   statement {
     actions = ["sns:Publish"]
-    effect = "Allow"
+    effect  = "Allow"
     principals {
-      type        = "AWS"
+      type = "AWS"
       identifiers = [
-                      "${aws_iam_role.AgentTaskRole.arn}",
-                      "${aws_iam_role.ConsoleTaskRole.arn}"
-             
-             ]
+        "${aws_iam_role.AgentTaskRole.arn}",
+        "${aws_iam_role.ConsoleTaskRole.arn}"
+      ]
     }
 
     resources = [

@@ -20,5 +20,3 @@
 #     evaluate_target_health = false
 #   }
 # }
-
-#Pending Just confirming not required #done

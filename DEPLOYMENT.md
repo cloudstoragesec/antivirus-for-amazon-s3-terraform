@@ -57,7 +57,6 @@ aws ssm create-document \
 
 _**Note**: This deployment guide assumes you will utilize a GitHub repository to synchronize deployments. You may use other options as necessary._
 
-
 * Create a fork of this repository into your organization or personal account
 
 ### AWS Credentials
