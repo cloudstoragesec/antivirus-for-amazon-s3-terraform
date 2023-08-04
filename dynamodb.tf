@@ -79,9 +79,9 @@ variable "tables" {
     },
     {
       name     = "VisibleGroups"
-      hash_key = "UserName"
+      hash_key = "Username"
       attributes = [
-        { name = "UserName", type = "S" },
+        { name = "Username", type = "S" },
       ]
 
     },

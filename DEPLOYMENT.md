@@ -85,6 +85,7 @@ There are input parameters which are required to be set for deployment to be suc
 Gather the appropriate values for the following, and make note of them for later.
 
 * **vpc**: The VPC ID in which to place the public facing Console
+* **cidr**: The CIDR block which is allowed access to the CSS Console (e.g. 0.0.0.0/24 for open access)
 * **subnet_a_id**: A subnet ID within the VPC that may be used for ECS tasks for this deployment
 * **subnet_b_id**: A second subnet ID within the VPC that may be used for ECS tasks for this deployment. We recommend choosing subnets in different availability zones
 * **Email**: The email address to be used for the initial admin account created for the CSS Console
