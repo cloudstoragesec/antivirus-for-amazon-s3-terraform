@@ -14,8 +14,8 @@ variable "subnet_b_id" {
   description = "Subnet B ID"
 }
 
-variable "Email" {
-  description = "Email address for Console management website account"
+variable "email" {
+  description = "email address for Console management website account"
 }
 
 variable "ssm_schema_doc_name" {

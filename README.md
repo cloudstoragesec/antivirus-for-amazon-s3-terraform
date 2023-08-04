@@ -26,13 +26,26 @@ Refer to the [deployment guide](DEPLOYMENT.md) for detailed directions.
 
 Contains variables that are required to be provided in the Terraform workspace.
 
-* **vpc**: The VPC ID in which to place the public facing Console
-* **cidr**: The CIDR block which is allowed access to the CSS Console (e.g. 0.0.0.0/24 for open access)
-* **subnet_a_id**: A subnet ID within the VPC that may be used for ECS tasks for this deployment
-* **subnet_b_id**: A second subnet ID within the VPC that may be used for ECS tasks for this deployment. We recommend choosing subnets in different availability zones
-* **Email**: The email address to be used for the initial admin account created for the CSS Console
-* **ssm_schema_doc_name**: The name of the ssm schema document you created
-* **ssm_doc_name**: The name of the ssm document you created
+* **vpc**  
+  The VPC ID in which to place the public facing Console  
+
+* **cidr**  
+  The CIDR block which is allowed access to the CSS Console (e.g. 0.0.0.0/24 for open access)  
+
+* **subnet_a_id**  
+  A subnet ID within the VPC that may be used for ECS tasks for this deployment  
+
+* **subnet_b_id**  
+  A second subnet ID within the VPC that may be used for ECS tasks for this deployment. We recommend choosing subnets in different availability zones  
+
+* **email**  
+  The email address to be used for the initial admin account created for the CSS Console  
+
+* **ssm_schema_doc_name**  
+  The name of the ssm schema document you created  
+
+* **ssm_doc_name**  
+  The name of the ssm document you created
 
 ### constant_vars.tf
 
@@ -40,20 +53,20 @@ Contains variables that are configured with a default value and used within the 
 
 Variables that may be desired to be overriden in the Terraform workspace:  
 
-* **agentscanningengine**  
+* **agent_scanning_engine**  
   The scanning engine to use.
   _**Note**: ClamAV is included with no additional charges. Premium engines such as `Sophos` incurr an additional licensing charge per GB (see Marketplace listing for pricing)_
   
   Valid values: `ClamAV`, `Sophos`  
   Default: `ClamAV`  
 
-* **multienginescanningengine**
-  Whether or not multiple av engines should be utilized to scan files. If this is enabled, the `agentscanningengine` variable must be set to `Sophos`. When set to `All`, every file will be scanned by both engines. When set to `LargeFiles`, only files larger than 2GB will be scanned with `Sophos`, and 2GB and smaller will be scanned with `ClamAV`.
+* **multi_engine_scanning_mode**
+  Whether or not multiple av engines should be utilized to scan files. If this is enabled, the `agent_scanning_engine` variable must be set to `Sophos`. When set to `All`, every file will be scanned by both engines. When set to `LargeFiles`, only files larger than 2GB will be scanned with `Sophos`, and 2GB and smaller will be scanned with `ClamAV`.
 
   Valid values: `Disabled`, `All`, `LargeFiles`
   Default: `Disabled`  
 
-* **ConsoleAutoAssignPublicIp**  
+* **console_auto_assign_public_Ip**  
   Whether a public IP should be assigned to the console. If set to false, there will need to be a proxy, nat gateway, or other mechanism in place to allow the Console to reach AWS services. You may configure VPC Endpoints for most AWS services we utilize, but a few do not yet support VPC Endpoints.  
 
   Valid values: `true`, `false`
@@ -83,7 +96,7 @@ Variables that may be desired to be overriden in the Terraform workspace:
   Valid values: `internet-facing`, `internal`
   Default: `internet-facing`  
 
-* **InfoOptOut**
+* **info_opt_out**
   Whether or not you would like to opt out from sending statistics to Cloud Storage Security. This is performed via an api call to an AWS Lambda in CSS' AWS Account. No sensitive information is ever sent to CSS. This should only ever be set to false if you are deploying behind a load balancer, as it would prevent us from registering a friendly DNS address for your deployment. Without a DNS address, the only way to reach the console would be to get the IP address from ECS each time the console task is restarted.  
 
   Valid values: `true`, `false`
@@ -95,7 +108,7 @@ Variables that may be desired to be overriden in the Terraform workspace:
   Value values: any string, but should be short to avoid possibly attempting to create resources with names that exceed the max allowed length
   Default: `CloudStorageSec`  
 
-* **Username**
+* **username**
   The username to be used for the initial user created for accessing the CSS Console
 
   Valid values: `[A-Za-z0-9-_.@]{3,128}`
