@@ -6,14 +6,14 @@ resource "random_id" "stack" {
 resource "aws_appconfig_application" "AppConfigAgentApplication" {
   name        = "${var.service_name}-${random_id.stack.hex}"
   description = "AppConfig Application for CloudStorageSec Agents"
-  tags = {(join("-",["${var.service_name}","${random_id.stack.hex}"])) = "ConsoleAppConfig"}
+  tags        = { (join("-", ["${var.service_name}", "${random_id.stack.hex}"])) = "ConsoleAppConfig" }
 }
 
 resource "aws_appconfig_environment" "AppConfigAgentEnvironment" {
   name           = "${var.service_name}Env-${aws_appconfig_application.AppConfigAgentApplication.id}"
   description    = "AppConfig Environment for CloudStorageSec Agents"
   application_id = aws_appconfig_application.AppConfigAgentApplication.id
-  tags = {(join("-",["${var.service_name}","${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConfigEnvironment"}
+  tags           = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConfigEnvironment" }
 }
 
 resource "aws_appconfig_deployment_strategy" "AppConfigAgentDeploymentStrategy" {
@@ -25,7 +25,7 @@ resource "aws_appconfig_deployment_strategy" "AppConfigAgentDeploymentStrategy" 
   growth_type                    = "LINEAR"
   replicate_to                   = "NONE"
 
-  tags = {(join("-",["${var.service_name}","${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConfigStartegy"}
+  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConfigStartegy" }
 }
 
 ###
@@ -45,40 +45,30 @@ resource "aws_appconfig_deployment_strategy" "AppConfigAgentDeploymentStrategy" 
 # DOC
 
 #   tags = {(join("-",["${var.service_name}","${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConfigSchema"}
-  
+
 # }
 
 # resource "aws_ssm_document" "AppConfigDocument" {
 #   name          = "${var.service_name}Config-Doc-${aws_appconfig_application.AppConfigAgentApplication.id}"
 #   document_type = "ApplicationConfiguration"
 #   document_format = "JSON"
-#   content = <<DOC
-#    { 
-#      "schemaVersion": ${aws_ssm_document.AppConfigDocumentSchema.latest_version},
-#      "schemaName": "${aws_ssm_document.AppConfigDocumentSchema.name}",
-#      "scanTaggingEnabled":true,"scanTagsExcluded":[],"classificationTaggingEnabled":true,"classificationTagsExcluded":[],"objectTagKeys":{"result":"scan-result","dateScanned":"date-scanned","virusName":"virus-name","virusUploadedBy":"uploaded-by","errorMessage":"message","classificationResult":"classification-result","dateClassified":"date-classified","classificationMatches":"classification-matches","classificationErrorMessage":"classification-message"},
-#      "quarantine":{
-#                 "action":"Move",
-#                 "moveBucketPrefix":"${var.quarantine_bucket_prefix} ${aws_appconfig_application.AppConfigAgentApplication.name}"},
-#      "scanList":{},
-#      "skipList":{},
-#      "classifyList":{},
-#      "classifySkipList":{},
-#      "documentRequires": {
-#        "name": "${aws_ssm_document.AppConfigDocumentSchema.name}",
-#        "version": "latest"
-#        },
-#      "requires": {
-#       "${aws_ssm_document.AppConfigDocumentSchema.name}": {
-#       "version": "latest"
-#        },
-#      "requiresPermissions": [
-#        {
-#       "documentType": "ApplicationConfigurationSchema",
-#       "documentPath": "${aws_ssm_document.AppConfigDocumentSchema.arn}"
-#       }
+#
+#   requires {
+#     name = "${aws_ssm_document.AppConfigDocumentSchema.name}"
+#     version = "$LATEST"
 #   }
-#     }
+#
+#   content = <<DOC
+# { 
+#   "scanTaggingEnabled":true,"scanTagsExcluded":[],"classificationTaggingEnabled":true,"classificationTagsExcluded":[],"objectTagKeys":{"result":"scan-result","dateScanned":"date-scanned","virusName":"virus-name","virusUploadedBy":"uploaded-by","errorMessage":"message","classificationResult":"classification-result","dateClassified":"date-classified","classificationMatches":"classification-matches","classificationErrorMessage":"classification-message"},
+#   "quarantine":{
+#     "action":"Move",
+#     "moveBucketPrefix":"${var.quarantine_bucket_prefix} ${aws_appconfig_application.AppConfigAgentApplication.name}"},
+#     "scanList":{},
+#     "skipList":{},
+#     "classifyList":{},
+#     "classifySkipList":{}
+# }
 #   DOC
 #    tags = {(join("-",["${var.service_name}","${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConfigDoc"}
 # }
@@ -87,10 +77,11 @@ resource "aws_appconfig_configuration_profile" "AppConfigProfile" {
   application_id = aws_appconfig_application.AppConfigAgentApplication.id
   description    = "AppConfig profile for CloudStorageSec Agents"
   name           = "${var.service_name}Config-Profile-${aws_appconfig_application.AppConfigAgentApplication.id}"
-  location_uri = "ssm-document://${var.ssm_doc_name}"
-  #location_uri   = "ssm-document://${aws_ssm_document.AppConfigDocument.name}" 
-  retrieval_role_arn = "${aws_iam_role.AppConfigAgentConfigurationDocumentRole.arn}"
-  tags = {(join("-",["${var.service_name}","${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConfigProfile"}
+  location_uri   = "ssm-document://${var.ssm_doc_name}"
+  # After Terraform supports `ApplicationConfiguration` docs, the `location_uri` will be the below
+  # location_uri   = "ssm-document://${aws_ssm_document.AppConfigDocument.name}" 
+  retrieval_role_arn = aws_iam_role.AppConfigAgentConfigurationDocumentRole.arn
+  tags               = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConfigProfile" }
 }
 
 resource "aws_appconfig_deployment" "AppConfigAgentDeployment" {
@@ -101,5 +92,5 @@ resource "aws_appconfig_deployment" "AppConfigAgentDeployment" {
   description              = "AppConfig Deployment for CloudStorageSec Agents"
   environment_id           = aws_appconfig_environment.AppConfigAgentEnvironment.environment_id
 
-tags = {(join("-",["${var.service_name}","${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConfigDeployment"}
+  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConfigDeployment" }
 }
