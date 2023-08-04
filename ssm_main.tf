@@ -85,13 +85,13 @@ resource "aws_ssm_parameter" "SubdomainParameter" {
 resource "aws_ssm_parameter" "EmailParameter" {
   name  = "/${var.parameter_prefix}-${aws_appconfig_application.AppConfigAgentApplication.id}/Config/Email"
   type  = "String"
-  value = var.Email
+  value = var.email
 }
 
 resource "aws_ssm_parameter" "UserNameParameter" {
   name  = "/${var.parameter_prefix}-${aws_appconfig_application.AppConfigAgentApplication.id}/Config/UserName"
   type  = "String"
-  value = var.Username
+  value = var.username
 }
 
 resource "aws_ssm_parameter" "StackNameParameter" {
@@ -162,13 +162,13 @@ resource "aws_ssm_parameter" "SecurityHubEnabledParameter" {
 resource "aws_ssm_parameter" "AgentScanningEngineParameter" {
   name  = "/${var.parameter_prefix}-${aws_appconfig_application.AppConfigAgentApplication.id}/Config/AgentScanningEngine"
   type  = "String"
-  value = var.agentscanningengine
+  value = var.agent_scanning_engine
 }
 
 resource "aws_ssm_parameter" "MultiEngineScanningModeParameter" {
   name  = "/${var.parameter_prefix}-${aws_appconfig_application.AppConfigAgentApplication.id}/Config/MultiEngineScanningMode"
   type  = "String"
-  value = var.multienginescanningengine
+  value = var.multi_engine_scanning_mode
 }
 
 resource "aws_ssm_parameter" "EcrAccountIdParameter" {

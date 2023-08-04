@@ -40,7 +40,7 @@ variable "task_network_mode" {
   default     = "awsvpc"
 }
 
-variable "InfoOptOut" {
+variable "info_opt_out" {
   description = "Would you like to opt-out from sending information about your deployment? Selecting Yes will cause custom DNS registration and trial eligiblity checks to not work. Given this, you must use your own Load Balancer in order to opt-out. If you opt-out and would still like a trial, please contact support@cloudstoragesec.com."
   type        = string
   default     = "false"
@@ -106,31 +106,31 @@ variable "hc_path" {
   default     = "/Account/SignIn"
 }
 
-variable "Username" {
+variable "username" {
   description = "Initial user name for the Console management website"
   type        = string
   default     = "admin"
 }
 
-variable "agentscanningengine" {
+variable "agent_scanning_engine" {
   description = "Choose the engine that should be used to scan files (See Marketplace listing for pricing differences)"
   type        = string
   default     = "ClamAV"
 }
 
-variable "multienginescanningengine" {
+variable "multi_engine_scanning_mode" {
   description = "Choose if you want to use multiple engines to scan files. All will scan every file with both engines, LargeFiles will scan files larger than 2GB with Sophos. Premium Engine pricing applies."
   type        = string
   default     = "Disabled"
 }
 
-variable "ApiRequestScalingPolicyPrefix" {
+variable "api_request_scaling_policy_prefix" {
   description = "Prefix for the AutoScaling policy for the API Service."
   type        = string
   default     = "ApiServiceRequestScaling"
 }
 
-variable "ConsoleAutoAssignPublicIp" {
+variable "console_auto_assign_public_Ip" {
   description = "Should a public IP be assigned to the Console? (WARNING: do not set to disabled unless you have configured your AWS VPC in a manner that would still allow access to the console.)"
   type        = string
   default     = "true"

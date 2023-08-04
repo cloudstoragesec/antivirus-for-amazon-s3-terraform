@@ -14,7 +14,7 @@ resource "aws_ecs_task_definition" "TaskDefinition" {
       memory                 = 1024
       readonlyRootFilesystem = true
       "environment" : [
-        { "name" : "INFO_OPT_OUT", "value" : "${var.InfoOptOut}" },
+        { "name" : "INFO_OPT_OUT", "value" : "${var.info_opt_out}" },
         { "name" : "APP_CONFIG_PROFILE_ID", "value" : "${aws_appconfig_configuration_profile.AppConfigProfile.configuration_profile_id}" },
         { "name" : "BYOL_MODE", "value" : "false" },
         { "name" : "RETRO_AGENT_SERVICE_NAME", "value" : "${var.service_name}RetroAgentService-${aws_appconfig_application.AppConfigAgentApplication.id}" },
@@ -30,7 +30,7 @@ resource "aws_ecs_task_definition" "TaskDefinition" {
         { "name" : "CONSOLE_SERVICE_NAME", "value" : "${var.service_name}ConsoleService-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "CONSOLE_SUBNET", "value" : "${var.subnet_a_id},${var.subnet_b_id}" },
         { "name" : "BLANKET_KMS_ACCESS", "value" : "true" },
-        { "name" : "API_REQUEST_SCALING_POLICY_NAME", "value" : "${var.ApiRequestScalingPolicyPrefix}-${aws_appconfig_application.AppConfigAgentApplication.id}" },
+        { "name" : "API_REQUEST_SCALING_POLICY_NAME", "value" : "${var.api_request_scaling_policy_prefix}-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "API_LB_TG_NAME", "value" : "${var.service_name}ApiTG-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "RETRO_SCAN_QUEUE_NAME", "value" : "${var.service_name}RetroQueue-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "APP_CONFIG_AGENT_CONFIGURATION_PROFILE_ROLE_ARN", "value" : "${aws_iam_role.AppConfigAgentConfigurationDocumentRole.arn}" },

@@ -11,12 +11,12 @@ output "LBWebAddress" {
 
 output "Username" {
   description = "User Name used to log in to console"
-  value       = var.Username
+  value       = var.username
 }
 
 output "Password" {
   description = "Temporary password used to log in to console"
-  value       = "Password was emailed to ${var.Email}"
+  value       = "Password was emailed to ${var.email}"
 }
 
 output "ProactiveNotificationsTopicArn" {

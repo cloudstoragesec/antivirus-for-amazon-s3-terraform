@@ -88,7 +88,7 @@ Gather the appropriate values for the following, and make note of them for later
 * **cidr**: The CIDR block which is allowed access to the CSS Console (e.g. 0.0.0.0/24 for open access)
 * **subnet_a_id**: A subnet ID within the VPC that may be used for ECS tasks for this deployment
 * **subnet_b_id**: A second subnet ID within the VPC that may be used for ECS tasks for this deployment. We recommend choosing subnets in different availability zones
-* **Email**: The email address to be used for the initial admin account created for the CSS Console
+* **email**: The email address to be used for the initial admin account created for the CSS Console
 * **ssm_schema_doc_name**: The name of the ssm schema document you created
 * **ssm_doc_name**: The name of the ssm document you created
 * **aws_account**: The aws account id the console will be deployed into
@@ -114,12 +114,12 @@ _**Note**: these are simple directions for a new workspace setup, you may utiliz
   * `vpc`
   * `subnet_a_id`
   * `subnet_b_id`
-  * `Email`
+  * `email`
   * `ssm_schema_doc_name`
   * `ssm_doc_name`
   * `aws_account`
   * `aws_region`
-* All of the above **except** `Email` and `aws_account` may be marked as Sensitive, if desired
+* All of the above **except** `email` and `aws_account` may be marked as Sensitive, if desired
 * Add `Environment Variables` for AWS Authorization
   * When using the recommended OIDC approach
     * `TFC_AWS_PROVIDER_AUTH = true`
@@ -137,7 +137,7 @@ _**Note**: these are simple directions for a new workspace setup, you may utiliz
 * Once the plan is finished, scroll down, and click `Confirm & Apply`
 * When deployment is complete, you will notice several outputs that you may want to make note of. You will have received an email with your temporary password
   * **ConsoleWebAddress**: the address of the deployed CSS Console
-  * **Username** the username for the created user
+  * **username** the username for the created user
  
  ## Performing Upgrades
 

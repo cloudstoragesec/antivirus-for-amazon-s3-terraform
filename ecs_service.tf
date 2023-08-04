@@ -16,7 +16,7 @@ resource "aws_ecs_service" "Service" {
   network_configuration {
     subnets          = [var.subnet_a_id, var.subnet_b_id]
     security_groups  = [aws_security_group.ContainerSecurityGroup.id]
-    assign_public_ip = var.ConsoleAutoAssignPublicIp
+    assign_public_ip = var.console_auto_assign_public_Ip
   }
   tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConsoleService" }
 }
@@ -41,7 +41,7 @@ resource "aws_ecs_service" "ServiceWithLB" {
   network_configuration {
     subnets          = [var.subnet_a_id, var.subnet_b_id]
     security_groups  = [aws_security_group.ContainerSecurityGroupWithLB.id]
-    assign_public_ip = var.ConsoleAutoAssignPublicIp
+    assign_public_ip = var.console_auto_assign_public_Ip
   }
   tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConsoleService" }
 }
