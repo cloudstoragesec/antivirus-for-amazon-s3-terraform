@@ -119,24 +119,24 @@ resource "aws_ssm_parameter" "LastPostUpgradeProcedureParameter" {
 }
 
 resource "aws_ssm_parameter" "RegionParameter" {
-  name  = "/${var.parameter_prefix}-${aws_appconfig_application.AppConfigAgentApplication.id}/Region"
+  name  = "/${var.parameter_prefix}-${aws_appconfig_application.AppConfigAgentApplication.id}/AWS/Region"
   type  = "String"
   value = var.aws_region
 }
 
 resource "aws_ssm_parameter" "UserPoolClientIdParameter" {
-  name  = "/${var.parameter_prefix}-${aws_appconfig_application.AppConfigAgentApplication.id}/UserPoolClientId"
+  name  = "/${var.parameter_prefix}-${aws_appconfig_application.AppConfigAgentApplication.id}/AWS/UserPoolClientId"
   type  = "String"
   value = aws_cognito_user_pool_client.UserPoolClient.id
 }
 
 resource "aws_ssm_parameter" "UserPoolClientSecretParameter" {
-  name  = "/${var.parameter_prefix}-${aws_appconfig_application.AppConfigAgentApplication.id}/UserPoolClientSecret"
+  name  = "/${var.parameter_prefix}-${aws_appconfig_application.AppConfigAgentApplication.id}/AWS/UserPoolClientSecret"
   type  = "String"
   value = aws_cognito_user_pool_client.UserPoolClient.client_secret
 }
 resource "aws_ssm_parameter" "UserPoolIdParameter" {
-  name  = "/${var.parameter_prefix}-${aws_appconfig_application.AppConfigAgentApplication.id}/UserPoolId"
+  name  = "/${var.parameter_prefix}-${aws_appconfig_application.AppConfigAgentApplication.id}/AWS/UserPoolId"
   type  = "String"
   value = aws_cognito_user_pool.UserPool.id
 }
