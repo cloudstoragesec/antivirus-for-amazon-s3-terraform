@@ -56,7 +56,7 @@ aws ssm create-document \
   --name CloudStorageSecConfig-${SSM_DOC_NAME_SUFFIX} \
   --document-type ApplicationConfiguration \
   --document-format JSON \
-  --requires "Name=CloudStorageSecConfigSchema-${SSM_DOC_NAME_SUFFIX},Version=\$LATEST" \
+  --requires "Name=CloudStorageSecConfig-Schema-${SSM_DOC_NAME_SUFFIX},Version=\$LATEST" \
   --tags "Key=CloudStorageSec-${SSM_DOC_NAME_SUFFIX},Value=AppConfigDocument" \
   --content "{\"scanTaggingEnabled\": true,\"scanTagsExcluded\": [],\"classificationTaggingEnabled\": true,\"classificationTagsExcluded\": [],\"objectTagKeys\": {\"result\": \"scan-result\",\"dateScanned\": \"date-scanned\",\"virusName\": \"virus-name\",\"virusUploadedBy\": \"uploaded-by\",\"errorMessage\": \"message\",\"classificationResult\": \"classification-result\",\"dateClassified\": \"date-classified\",\"classificationMatches\": \"classification-matches\",\"classificationErrorMessage\": \"classification-message\"},\"quarantine\": {\"action\": \"Move\",\"moveBucketPrefix\": \"cloudstoragesecquarantine-${SSM_DOC_NAME_SUFFIX}\"},\"scanList\": {},\"skipList\": {},\"classifyList\": {},\"classifySkipList\": {}}"
 ```
