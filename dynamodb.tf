@@ -1,5 +1,5 @@
 resource "aws_dynamodb_table" "css-dynamodb-table" {
-  count        = 10
+  count        = 12
   name         = "${aws_appconfig_application.AppConfigAgentApplication.id}.${var.tables[count.index].name}"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = var.tables[count.index].hash_key
@@ -35,7 +35,20 @@ variable "tables" {
       attributes = [
         { name = "Name", type = "S" },
       ]
-
+    },
+    {
+      name     = "EfsVolumes"
+      hash_key = "Id"
+      attributes = [
+        { name = "Id", type = "S" },
+      ]
+    },
+    {
+      name     = "EbsVolumes"
+      hash_key = "Id"
+      attributes = [
+        { name = "Id", type = "S" },
+      ]
     },
     {
       name     = "Subnets"
@@ -110,6 +123,28 @@ variable "tables" {
 
     },
   ]
+}
+
+resource "aws_dynamodb_table" "ProactiveMonitorStatusesTable" {
+  name         = "${aws_appconfig_application.AppConfigAgentApplication.id}.ProactiveMonitorStatuses"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "Name"
+  range_key    = "Region"
+  point_in_time_recovery {
+    enabled = aws_ssm_parameter.DynamoPointInTimeRecoveryEnabledParameter.value
+  }
+
+  attribute {
+    name = "Name"
+    type = "S"
+  }
+
+  attribute {
+    name = "Region"
+    type = "S"
+  }
+
+  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" }
 }
 
 resource "aws_dynamodb_table" "StorageAnalysisTable" {
@@ -449,10 +484,21 @@ resource "aws_dynamodb_table" "ProblemFilesTable" {
     name = "AccountId"
     type = "S"
   }
+  attribute {
+    name = "AccountIdResult"
+    type = "S"
+  }
 
   global_secondary_index {
     name            = "AccountIdAndDateScanned"
     hash_key        = "AccountId"
+    range_key       = "DateScanned"
+    projection_type = "ALL"
+  }
+
+  global_secondary_index {
+    name            = "AccountIdResultAndDateScanned"
+    hash_key        = "AccountIdResult"
     range_key       = "DateScanned"
     projection_type = "ALL"
   }
@@ -484,7 +530,7 @@ resource "aws_dynamodb_table" "ClassificationResultsTable" {
   }
 
   global_secondary_index {
-    name            = "AccountIdAndDateScanned"
+    name            = "AccountIdAndGuid"
     hash_key        = "AccountId"
     range_key       = "Guid"
     projection_type = "ALL"

@@ -24,8 +24,8 @@ variable "lb_scheme" {
 
 variable "configure_load_balancer" {
   description = "Whether or not to configure a load balancer in the service. Mark false if there is no LB, mark true if LB is required"
-  type        = string
-  default     = "false"
+  type        = bool
+  default     = false
 }
 
 variable "lb_cert_arn" {
@@ -42,8 +42,8 @@ variable "task_network_mode" {
 
 variable "info_opt_out" {
   description = "Would you like to opt-out from sending information about your deployment? Selecting Yes will cause custom DNS registration and trial eligiblity checks to not work. Given this, you must use your own Load Balancer in order to opt-out. If you opt-out and would still like a trial, please contact support@cloudstoragesec.com."
-  type        = string
-  default     = "false"
+  type        = bool
+  default     = false
 }
 
 variable "desired_count" {
@@ -142,14 +142,56 @@ variable "ecr_account" {
   default     = "564477214187"
 }
 
-variable "console_image_url" {
-  description = "Console container image URL (not intended to be changed by consumer)"
+variable "product_mode" {
+  description = "Initial product mode for this deployment. Do not modify this value."
   type        = string
-  default     = "${var.ecr_account}.dkr.ecr.us-east-1.amazonaws.com/cloudstoragesecurity/console:v6.04.006"
+  default     = "AV"
 }
 
-variable "agent_image_url" {
-  description = "Agent container image URL (not intended to be changed by consumer)"
+variable "event_bridge_role_arn" {
+  description = "Role ARN for AWS Event Bridge execution"
   type        = string
-  default     = "${var.ecr_account}.dkr.ecr.<region>.amazonaws.com/cloudstoragesecurity/agent:v6.04.006"
+  default     = "Created by TF"
+}
+
+variable "event_bridge_role_name" {
+  description = "Role name for the AWS AWS Event Bridge execution"
+  type        = string
+  default     = "Created by TF"
+}
+
+variable "agent_auto_assign_public_ip" {
+  description = "Should public IPs be assigned to the Agents? (WARNING: do not set to disabled unless you have configured your AWS VPC in a manner that would still allow the agents to reach AWS services over the internet.)"
+  type        = string
+  default     = "ENABLED"
+}
+
+variable "allow_access_to_all_kms_keys" {
+  description = "Pick Yes if you would like to give the scanner access to all KMS encrypted buckets"
+  type        = string
+  default     = "Yes"
+}
+
+variable "proxy_host" {
+  description = "URL for proxy server"
+  type        = string
+  default     = "none"
+}
+
+variable "proxy_port" {
+  description = "Port for proxy server"
+  type        = string
+  default     = "none"
+}
+
+variable "template_variation" {
+  description = "Do not modify this value, it is for specialized template use only."
+  type        = string
+  default     = "default"
+}
+
+variable "buckets_to_protect" {
+  description = "Enter any pre-existing buckets that you would like to automatically enable event-based protection on. Bucket names must be separated by commas (e.g. bucket1,bucket2,bucket3). Protected buckets can be managed after deployment in the CSS Console."
+  type        = string
+  default     = ""
 }

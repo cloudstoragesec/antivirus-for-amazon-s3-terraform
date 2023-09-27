@@ -2,8 +2,8 @@ resource "aws_cognito_user_pool" "UserPool" {
   admin_create_user_config {
     allow_admin_create_user_only = true
     invite_message_template {
-      email_subject = "Antivirus for Amazon S3 - Console Account Information"
-      email_message = "A new account has been created for you in the Antivirus for Amazon S3 Console.<br/>Your account credentials are provided below:<br/><br/> User Name: {username}<br/> Temporary Password: {####}<br/><br/>This temporary password will expire in 7 days.<br/><br/> Sign in at ${local.URL} to change your password.<br/><br/>Have Fun,<br/>Cloud Storage Security<br/>support@cloudstoragesec.com<br/>801-410-0408"
+      email_subject = "${local.is_antivirus ? "Antivirus" : "Data Classification"} for Amazon S3 - Console Account Information"
+      email_message = "A new account has been created for you in the ${local.is_antivirus ? "Antivirus" : "Data Classification"} for Amazon S3 Console.<br/>Your account credentials are provided below:<br/><br/> User Name: {username}<br/> Temporary Password: {####}<br/><br/>This temporary password will expire in 7 days.<br/><br/> Sign in at ${local.URL} to change your password.<br/><br/>Have Fun,<br/>Cloud Storage Security<br/>support@cloudstoragesec.com<br/>801-410-0408"
       sms_message   = "Your username is {username}. Your temporary password is {####}"
     }
   }

@@ -15,7 +15,7 @@ resource "aws_ecs_service" "Service" {
   platform_version                   = var.ecs_platform_version
   network_configuration {
     subnets          = [var.subnet_a_id, var.subnet_b_id]
-    security_groups  = [aws_security_group.ContainerSecurityGroup.id]
+    security_groups  = [aws_security_group.ContainerSecurityGroup[0].id]
     assign_public_ip = var.console_auto_assign_public_Ip
   }
   tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConsoleService" }
@@ -40,7 +40,7 @@ resource "aws_ecs_service" "ServiceWithLB" {
 
   network_configuration {
     subnets          = [var.subnet_a_id, var.subnet_b_id]
-    security_groups  = [aws_security_group.ContainerSecurityGroupWithLB.id]
+    security_groups  = [aws_security_group.ContainerSecurityGroupWithLB[0].id]
     assign_public_ip = var.console_auto_assign_public_Ip
   }
   tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConsoleService" }
@@ -85,8 +85,7 @@ resource "aws_lb" "LoadBalancer" {
   idle_timeout       = 60
   internal           = var.lb_scheme != "internet-facing"
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.LoadBalancerSecurityGroup.id]
+  security_groups    = [aws_security_group.LoadBalancerSecurityGroup[0].id]
   subnets            = [var.subnet_a_id, var.subnet_b_id]
   tags               = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConsoleLoadBalancer" }
 }
-
