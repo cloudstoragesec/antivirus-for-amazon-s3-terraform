@@ -2,7 +2,7 @@
 
 ## Overview
 
-The deployment will create 104 AWS Resources, including:  
+The deployment will create 109 AWS Resources, including:  
 
 * ECS Service
 * ECS Task Definition
@@ -39,13 +39,7 @@ Contains variables that are required to be provided in the Terraform workspace.
   A second subnet ID within the VPC that may be used for ECS tasks for this deployment. We recommend choosing subnets in different availability zones  
 
 * **email**  
-  The email address to be used for the initial admin account created for the CSS Console  
-
-* **ssm_schema_doc_name**  
-  The name of the ssm schema document you created  
-
-* **ssm_doc_name**  
-  The name of the ssm document you created
+  The email address to be used for the initial admin account created for the CSS Console
 
 ### constant_vars.tf
 

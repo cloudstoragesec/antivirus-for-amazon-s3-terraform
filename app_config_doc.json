@@ -1,0 +1,33 @@
+{
+    "scanTaggingEnabled": true,
+    "scanTagsExcluded":
+    [],
+    "classificationTaggingEnabled": true,
+    "classificationTagsExcluded":
+    [],
+    "objectTagKeys":
+    {
+        "result": "scan-result",
+        "dateScanned": "date-scanned",
+        "virusName": "virus-name",
+        "virusUploadedBy": "uploaded-by",
+        "errorMessage": "message",
+        "classificationResult": "classification-result",
+        "dateClassified": "date-classified",
+        "classificationMatches": "classification-matches",
+        "classificationErrorMessage": "classification-message"
+    },
+    "quarantine":
+    {
+        "action": "Move",
+        "moveBucketPrefix": "cloudstoragesecquarantine-${app_id}"
+    },
+    "scanList":
+    {},
+    "skipList":
+    {},
+    "classifyList":
+    {},
+    "classifySkipList":
+    {}
+}

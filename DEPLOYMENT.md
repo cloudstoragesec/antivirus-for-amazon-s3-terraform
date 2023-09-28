@@ -16,51 +16,6 @@ Our primary listing may be found at the link below. Click `Continue to Subscribe
 
 [Antivirus for Amazon S3 - PAYG with 30 DAY FREE TRIAL](https://aws.amazon.com/marketplace/pp/prodview-q7oc4shdnpc4w)
 
-### AWS AppConfig
-
-#### Details
-
-Due to a Terraform limitation, some AppConfig resources will need to be created ahead of time. Provided in the following sections are `aws cli` commands that will create the required resources.
-
-Specifically, Terraform does not yet support [ApplicationConfiguration](https://github.com/hashicorp/terraform-provider-aws/issues/31505) documents.
-
-When the [enhancement](https://github.com/hashicorp/terraform-provider-aws/pull/31506) is accepted, this pre-requisite will be removed, and the resources will be created in terraform.
-
-#### Creation Steps
-
-##### Choose a unique suffix to use for the document names
-
-Decide on a suffix to append to the two document names. This would normally be a 7 character alphanumeric string, but that is not a requirement.  
-
-Save this suffix as an environment variable which will be used in the commands that follow.
-
-```shell
-$SSM_DOC_NAME_SUFFIX="abc1234"
-```
-
-##### Create the SSM ApplicationConfigurationSchema Document
-
-```shell
-aws ssm create-document \
-  --name CloudStorageSecConfig-Schema-${SSM_DOC_NAME_SUFFIX} \
-  --document-type ApplicationConfigurationSchema \
-  --document-format JSON \
-  --tags "Key=CloudStorageSec-${SSM_DOC_NAME_SUFFIX},Value=AppConfigSchemaDocument" \
-  --content "{\"$schema\":\"http://json-schema.org/draft-07/schema#\",\"description\":\"Configuration for CloudStorageScan\",\"type\":\"object\",\"required\":[\"objectTagKeys\",\"quarantine\",\"scanList\",\"skipList\",\"classifyList\",\"classifySkipList\",\"scanTaggingEnabled\",\"scanTagsExcluded\",\"classificationTaggingEnabled\",\"classificationTagsExcluded\"],\"properties\":{\"scanTaggingEnabled\":{\"type\":\"boolean\",\"description\":\"Indicates whether tags should be added to the scanned objects.\"},\"scanTagsExcluded\":{\"type\":\"array\",\"description\":\"Scan tags to not be added to scanned objects\",\"items\":{\"type\":\"string\"},\"uniqueItems\":true,\"additionalProperties\":false},\"classificationTaggingEnabled\":{\"type\":\"boolean\",\"description\":\"Indicates whether tags should be added to the classified objects.\"},\"classificationTagsExcluded\":{\"type\":\"array\",\"description\":\"Classification tags to not be added to classified objects\",\"items\":{\"type\":\"string\"},\"uniqueItems\":true,\"additionalProperties\":false},\"avEventProtectedBuckets\":{\"type\":\"array\",\"items\":{\"type\":\"string\"},\"uniqueItems\":true,\"additionalProperties\":false},\"avScheduledBuckets\":{\"type\":\"array\",\"items\":{\"type\":\"string\"},\"uniqueItems\":true,\"additionalProperties\":false},\"efsClassificationRuleSets\":{\"type\":\"object\",\"patternProperties\":{\"^[a-zA-Z]+$\":{\"type\":\"array\",\"items\":{\"type\":\"string\"},\"additionalProperties\":false}}},\"dcEventBucketRuleSets\":{\"type\":\"object\",\"patternProperties\":{\"^[a-zA-Z]+$\":{\"type\":\"array\",\"items\":{\"type\":\"string\"},\"additionalProperties\":false}}},\"ebsClassificationRuleSets\":{\"type\":\"object\",\"patternProperties\":{\"^[a-zA-Z]+$\":{\"type\":\"array\",\"items\":{\"type\":\"string\"},\"additionalProperties\":false}}},\"classificationRuleSets\":{\"type\":\"object\",\"patternProperties\":{\"^[a-zA-Z]+$\":{\"type\":\"array\",\"items\":{\"type\":\"string\"},\"additionalProperties\":false}}},\"objectTagKeys\":{\"type\":\"object\",\"required\":[\"result\",\"dateScanned\",\"virusName\",\"virusUploadedBy\",\"errorMessage\",\"classificationResult\",\"dateClassified\",\"classificationMatches\",\"classificationErrorMessage\"],\"properties\":{\"result\":{\"type\":\"string\",\"description\":\"The tag key for scan results.\"},\"dateScanned\":{\"type\":\"string\",\"description\":\"The tag key for the scan date.\"},\"virusName\":{\"type\":\"string\",\"description\":\"The tag key for the virus name.\"},\"virusUploadedBy\":{\"type\":\"string\",\"description\":\"The tag key for who uploaded the virus.\"},\"errorMessage\":{\"type\":\"string\",\"description\":\"The tag key for the error message.\"},\"classificationResult\":{\"type\":\"string\",\"description\":\"The tag key for classification results.\"},\"dateClassified\":{\"type\":\"string\",\"description\":\"The tag key for the classification date.\"},\"classificationMatches\":{\"type\":\"string\",\"description\":\"The tag key for the list of classification matches found.\"},\"classificationErrorMessage\":{\"type\":\"string\",\"description\":\"The tag key for the classification error message.\"}}},\"quarantine\":{\"type\":\"object\",\"required\":[\"action\",\"moveBucketPrefix\"],\"properties\":{\"action\":{\"type\":\"string\",\"pattern\":\"Keep|Move|Delete\",\"description\":\"Action to take on an object upon a virus being detected.\"},\"moveBucketPrefix\":{\"type\":\"string\",\"description\":\"Bucket to move infected objects to.\"}}},\"scanList\":{\"type\":\"object\",\"patternProperties\":{\"^[a-zA-Z]+$\":{\"type\":\"array\",\"items\":{\"type\":\"string\"},\"additionalProperties\":false}}},\"skipList\":{\"type\":\"object\",\"patternProperties\":{\"^[a-zA-Z]+$\":{\"type\":\"array\",\"items\":{\"type\":\"string\"},\"additionalProperties\":false}}},\"classifyList\":{\"type\":\"object\",\"patternProperties\":{\"^[a-zA-Z]+$\":{\"type\":\"array\",\"items\":{\"type\":\"string\"},\"additionalProperties\":false}}},\"classifySkipList\":{\"type\":\"object\",\"patternProperties\":{\"^[a-zA-Z]+$\":{\"type\":\"array\",\"items\":{\"type\":\"string\"},\"additionalProperties\":false}}}},\"additionalProperties\":false}"
-```
-
-##### Create the SSM ApplicationConfiguration Document
-
-```shell
-aws ssm create-document \
-  --name CloudStorageSecConfig-${SSM_DOC_NAME_SUFFIX} \
-  --document-type ApplicationConfiguration \
-  --document-format JSON \
-  --requires "Name=CloudStorageSecConfig-Schema-${SSM_DOC_NAME_SUFFIX},Version=\$LATEST" \
-  --tags "Key=CloudStorageSec-${SSM_DOC_NAME_SUFFIX},Value=AppConfigDocument" \
-  --content "{\"scanTaggingEnabled\": true,\"scanTagsExcluded\": [],\"classificationTaggingEnabled\": true,\"classificationTagsExcluded\": [],\"objectTagKeys\": {\"result\": \"scan-result\",\"dateScanned\": \"date-scanned\",\"virusName\": \"virus-name\",\"virusUploadedBy\": \"uploaded-by\",\"errorMessage\": \"message\",\"classificationResult\": \"classification-result\",\"dateClassified\": \"date-classified\",\"classificationMatches\": \"classification-matches\",\"classificationErrorMessage\": \"classification-message\"},\"quarantine\": {\"action\": \"Move\",\"moveBucketPrefix\": \"cloudstoragesecquarantine-${SSM_DOC_NAME_SUFFIX}\"},\"scanList\": {},\"skipList\": {},\"classifyList\": {},\"classifySkipList\": {}}"
-```
-
 ### GitHub Repository
 
 _**Note**: This deployment guide assumes you will utilize a GitHub repository to synchronize deployments. You may use other options as necessary._
@@ -97,8 +52,6 @@ Gather the appropriate values for the following, and make note of them for later
 * **subnet_a_id**: A subnet ID within the VPC that may be used for ECS tasks for this deployment
 * **subnet_b_id**: A second subnet ID within the VPC that may be used for ECS tasks for this deployment. We recommend choosing subnets in different availability zones
 * **email**: The email address to be used for the initial admin account created for the CSS Console
-* **ssm_schema_doc_name**: The name of the ssm schema document you created
-* **ssm_doc_name**: The name of the ssm document you created
 * **aws_account**: The aws account id the console will be deployed into
 * **aws_region**: The aws region to deploy into
 
@@ -123,8 +76,6 @@ _**Note**: these are simple directions for a new workspace setup, you may utiliz
   * `subnet_a_id`
   * `subnet_b_id`
   * `email`
-  * `ssm_schema_doc_name`
-  * `ssm_doc_name`
   * `aws_account`
   * `aws_region`
 * All of the above **except** `email` and `aws_account` may be marked as Sensitive, if desired

@@ -1,6 +1,9 @@
+variable "aws_region" {
+  description = "The AWS Region"
+}
 
-provider "aws" {
-  region = var.aws_region
+variable "aws_account" {
+  description = "The AWS account number where resources are being deployed"
 }
 
 terraform {
@@ -9,6 +12,20 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 4.0"
     }
-
+    awscc = {
+      source  = "hashicorp/awscc"
+      version = "~> 0.1"
+    }
   }
 }
+
+provider "awscc" {
+  region = var.aws_region
+}
+
+provider "aws" {
+  region = var.aws_region
+}
+
+
+
