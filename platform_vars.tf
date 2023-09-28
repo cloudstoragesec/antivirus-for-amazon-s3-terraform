@@ -37,5 +37,5 @@ variable "email" {
 }
 
 variable "ssm_doc_name_prefix" {
-  description = "The prefix you created during the pre-requisite process"
+  description = "The prefix you used during the pre-requisite process"
 }
