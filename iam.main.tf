@@ -26,7 +26,7 @@ resource "aws_iam_role_policy" "AppConfigAgentConfigurationDocumentPolicy" {
       {
         Action = ["ssm:GetDocument"],
         Resource = [
-          "arn:aws:ssm:*:*:document/${var.ssm_doc_name}"
+          "arn:aws:ssm:*:*:document/${local.ssm_doc_name}"
         ],
         Effect = "Allow"
       },
@@ -299,8 +299,8 @@ resource "aws_iam_role_policy" "ConsoleTaskPolicy" {
           "arn:aws:sns:*:*:*${aws_appconfig_application.AppConfigAgentApplication.id}",
           "arn:aws:sqs:*:*:*${aws_appconfig_application.AppConfigAgentApplication.id}*",
           "arn:aws:ssm:*:*:parameter/aws/service/ecs/optimized-ami/amazon-linux*/recommended/image_id",
-          "arn:aws:ssm:*:*:document/${var.ssm_doc_name}",
-          "arn:aws:ssm:*:*:document/${var.ssm_schema_doc_name}",
+          "arn:aws:ssm:*:*:document/${local.ssm_doc_name}",
+          "arn:aws:ssm:*:*:document/${local.ssm_schema_doc_name}",
           "arn:aws:ssm:*:*:parameter/*${aws_appconfig_application.AppConfigAgentApplication.id}/*",
           "arn:aws:ssm:*:*:parameter/*${aws_appconfig_application.AppConfigAgentApplication.id}",
           "arn:aws:ecr:${var.aws_region}:${var.ecr_account}:repository/cloudstoragesecurity/*",

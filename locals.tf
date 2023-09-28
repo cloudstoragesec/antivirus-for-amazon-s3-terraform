@@ -9,6 +9,7 @@ locals {
   use_proxy                = var.proxy_host != "none"
   is_antivirus             = var.product_mode == "AV"
 
-
-  ecs_service_name = var.configure_load_balancer ? aws_ecs_service.ServiceWithLB[0].name : aws_ecs_service.Service[0].name
+  ssm_schema_doc_name = "CloudStorageSecConfig-Schema-${var.ssm_doc_name_prefix}"
+  ssm_doc_name        = "CloudStorageSecConfig-${var.ssm_doc_name_prefix}"
+  ecs_service_name    = var.configure_load_balancer ? aws_ecs_service.ServiceWithLB[0].name : aws_ecs_service.Service[0].name
 }

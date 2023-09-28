@@ -77,7 +77,7 @@ resource "aws_appconfig_configuration_profile" "AppConfigProfile" {
   application_id = aws_appconfig_application.AppConfigAgentApplication.id
   description    = "AppConfig profile for CloudStorageSec Agents"
   name           = "${var.service_name}Config-Profile-${aws_appconfig_application.AppConfigAgentApplication.id}"
-  location_uri   = "ssm-document://${var.ssm_doc_name}"
+  location_uri   = "ssm-document://${local.ssm_doc_name}"
   # After Terraform supports `ApplicationConfiguration` docs, the `location_uri` will be the below
   # location_uri   = "ssm-document://${aws_ssm_document.AppConfigDocument.name}" 
   retrieval_role_arn = aws_iam_role.AppConfigAgentConfigurationDocumentRole.arn

@@ -36,10 +36,6 @@ variable "email" {
   description = "email address for Console management website account"
 }
 
-variable "ssm_schema_doc_name" {
-  description = "Name of the SSM Schema Document you created during the pre-requisite process"
-}
-
-variable "ssm_doc_name" {
-  description = "Name of the SSM Document you created during the pre-requisite process"
+variable "ssm_doc_name_prefix" {
+  description = "The prefix you created during the pre-requisite process"
 }
