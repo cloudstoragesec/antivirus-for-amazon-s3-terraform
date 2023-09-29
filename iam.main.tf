@@ -14,7 +14,9 @@ resource "aws_iam_role" "AppConfigAgentConfigurationDocumentRole" {
       },
     ]
   })
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "AppConfigDocumentRole" }
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "AppConfigDocumentRole" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_iam_role_policy" "AppConfigAgentConfigurationDocumentPolicy" {
@@ -49,7 +51,9 @@ resource "aws_iam_role" "UserPoolSnsRole" {
       },
     ]
   })
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "UserPoolSnsRole" }
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "UserPoolSnsRole" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_iam_role_policy" "UserPoolSnsPolicy" {
@@ -83,7 +87,9 @@ resource "aws_iam_role" "ConsoleTaskRole" {
       },
     ]
   })
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConsoleTaskRole" }
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConsoleTaskRole" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_iam_role_policy" "ConsoleTaskPolicy" {
@@ -468,7 +474,9 @@ resource "aws_iam_role" "AgentTaskRole" {
       },
     ]
   })
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "AgentTaskRole" }
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "AgentTaskRole" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_iam_role_policy" "AgentTaskPolicy" {
@@ -613,7 +621,9 @@ resource "aws_iam_role" "ExecutionRole" {
   })
   managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"]
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ExecutionRole" }
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ExecutionRole" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_iam_role" "Ec2ContainerRole" {
@@ -633,7 +643,9 @@ resource "aws_iam_role" "Ec2ContainerRole" {
   })
   managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"]
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "Ec2ContainerRole" }
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "Ec2ContainerRole" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_iam_role_policy" "Ec2ContainerPolicy" {

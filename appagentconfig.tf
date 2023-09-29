@@ -6,14 +6,18 @@ resource "random_id" "stack" {
 resource "aws_appconfig_application" "AppConfigAgentApplication" {
   name        = "${var.service_name}-${random_id.stack.hex}"
   description = "AppConfig Application for CloudStorageSec Agents"
-  tags        = { (join("-", ["${var.service_name}", "${random_id.stack.hex}"])) = "ConsoleAppConfig" }
+  tags = merge({ (join("-", ["${var.service_name}", "${random_id.stack.hex}"])) = "ConsoleAppConfig" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_appconfig_environment" "AppConfigAgentEnvironment" {
   name           = "${var.service_name}Env-${aws_appconfig_application.AppConfigAgentApplication.id}"
   description    = "AppConfig Environment for CloudStorageSec Agents"
   application_id = aws_appconfig_application.AppConfigAgentApplication.id
-  tags           = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConfigEnvironment" }
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConfigEnvironment" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_appconfig_deployment_strategy" "AppConfigAgentDeploymentStrategy" {
@@ -25,7 +29,9 @@ resource "aws_appconfig_deployment_strategy" "AppConfigAgentDeploymentStrategy" 
   growth_type                    = "LINEAR"
   replicate_to                   = "NONE"
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConfigStartegy" }
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConfigStartegy" },
+    var.custom_resource_tags
+  )
 }
 
 resource "awscc_ssm_document" "AppConfigDocumentSchema" {
@@ -33,12 +39,19 @@ resource "awscc_ssm_document" "AppConfigDocumentSchema" {
   document_type   = "ApplicationConfigurationSchema"
   document_format = "JSON"
   content         = file("${path.module}/app_config_schema.json")
-  tags = [
+
+  lifecycle {
+    ignore_changes = [
+      # TF Tries to update tags every time and Cloud Control call times out if they are the same.
+      tags
+    ]
+  }
+  tags = concat([
     {
       key   = (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"]))
       value = "ConfigSchema"
-    }
-  ]
+    },
+  ], local.custom_tags)
 
 }
 
@@ -55,18 +68,22 @@ resource "awscc_ssm_document" "AppConfigDocument" {
   ]
 
   lifecycle {
-    ignore_changes = [requires]
+    ignore_changes = [
+      # TF Tries to update tags every time and Cloud Control call times out if they are the same.
+      tags,
+      requires
+    ]
   }
 
   content = templatefile("${path.module}/app_config_doc.json", {
     app_id = aws_appconfig_application.AppConfigAgentApplication.id
   })
-  tags = [
+  tags = concat([
     {
       key   = (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"]))
       value = "ConfigDoc"
-    }
-  ]
+    },
+  ], local.custom_tags)
 }
 
 resource "aws_appconfig_configuration_profile" "AppConfigProfile" {
@@ -75,7 +92,9 @@ resource "aws_appconfig_configuration_profile" "AppConfigProfile" {
   name               = "${var.service_name}Config-Profile-${aws_appconfig_application.AppConfigAgentApplication.id}"
   location_uri       = "ssm-document://${awscc_ssm_document.AppConfigDocument.name}"
   retrieval_role_arn = aws_iam_role.AppConfigAgentConfigurationDocumentRole.arn
-  tags               = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConfigProfile" }
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConfigProfile" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_appconfig_deployment" "AppConfigAgentDeployment" {
@@ -86,5 +105,7 @@ resource "aws_appconfig_deployment" "AppConfigAgentDeployment" {
   description              = "AppConfig Deployment for CloudStorageSec Agents"
   environment_id           = aws_appconfig_environment.AppConfigAgentEnvironment.environment_id
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConfigDeployment" }
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConfigDeployment" },
+    var.custom_resource_tags
+  )
 }

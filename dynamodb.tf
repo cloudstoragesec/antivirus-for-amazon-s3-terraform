@@ -15,7 +15,14 @@ resource "aws_dynamodb_table" "css-dynamodb-table" {
     }
   }
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" }
+  server_side_encryption {
+    enabled     = local.use_dynamo_cmk
+    kms_key_arn = var.dynamo_cmk_key_arn
+  }
+
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" },
+    var.custom_resource_tags
+  )
 }
 
 variable "tables" {
@@ -144,7 +151,14 @@ resource "aws_dynamodb_table" "ProactiveMonitorStatusesTable" {
     type = "S"
   }
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" }
+  server_side_encryption {
+    enabled     = local.use_dynamo_cmk
+    kms_key_arn = var.dynamo_cmk_key_arn
+  }
+
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_dynamodb_table" "StorageAnalysisTable" {
@@ -178,7 +192,14 @@ resource "aws_dynamodb_table" "StorageAnalysisTable" {
     projection_type = "ALL"
   }
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" }
+  server_side_encryption {
+    enabled     = local.use_dynamo_cmk
+    kms_key_arn = var.dynamo_cmk_key_arn
+  }
+
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_dynamodb_table" "FileCountTable" {
@@ -212,7 +233,14 @@ resource "aws_dynamodb_table" "FileCountTable" {
     projection_type = "ALL"
   }
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" }
+  server_side_encryption {
+    enabled     = local.use_dynamo_cmk
+    kms_key_arn = var.dynamo_cmk_key_arn
+  }
+
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_dynamodb_table" "AgentsTable" {
@@ -246,7 +274,14 @@ resource "aws_dynamodb_table" "AgentsTable" {
     projection_type = "ALL"
   }
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" }
+  server_side_encryption {
+    enabled     = local.use_dynamo_cmk
+    kms_key_arn = var.dynamo_cmk_key_arn
+  }
+
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_dynamodb_table" "AgentDataTable" {
@@ -280,7 +315,14 @@ resource "aws_dynamodb_table" "AgentDataTable" {
     projection_type = "ALL"
   }
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" }
+  server_side_encryption {
+    enabled     = local.use_dynamo_cmk
+    kms_key_arn = var.dynamo_cmk_key_arn
+  }
+
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_dynamodb_table" "BucketScanStatisticsTable" {
@@ -314,7 +356,14 @@ resource "aws_dynamodb_table" "BucketScanStatisticsTable" {
     projection_type = "ALL"
   }
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" }
+  server_side_encryption {
+    enabled     = local.use_dynamo_cmk
+    kms_key_arn = var.dynamo_cmk_key_arn
+  }
+
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_dynamodb_table" "BucketClassificationStatisticsTable" {
@@ -342,7 +391,14 @@ resource "aws_dynamodb_table" "BucketClassificationStatisticsTable" {
     projection_type = "ALL"
   }
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" }
+  server_side_encryption {
+    enabled     = local.use_dynamo_cmk
+    kms_key_arn = var.dynamo_cmk_key_arn
+  }
+
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_dynamodb_table" "SophosTapDataTable" {
@@ -364,7 +420,14 @@ resource "aws_dynamodb_table" "SophosTapDataTable" {
     type = "N"
   }
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" }
+  server_side_encryption {
+    enabled     = local.use_dynamo_cmk
+    kms_key_arn = var.dynamo_cmk_key_arn
+  }
+
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" },
+    var.custom_resource_tags
+  )
 }
 resource "aws_dynamodb_table" "DailyScanStatisticsTable" {
   name         = "${aws_appconfig_application.AppConfigAgentApplication.id}.DailyScanStatistics"
@@ -411,7 +474,14 @@ resource "aws_dynamodb_table" "DailyScanStatisticsTable" {
     projection_type = "ALL"
   }
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" }
+  server_side_encryption {
+    enabled     = local.use_dynamo_cmk
+    kms_key_arn = var.dynamo_cmk_key_arn
+  }
+
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_dynamodb_table" "MonthlyScanStatisticsTable" {
@@ -459,7 +529,14 @@ resource "aws_dynamodb_table" "MonthlyScanStatisticsTable" {
     projection_type = "ALL"
   }
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" }
+  server_side_encryption {
+    enabled     = local.use_dynamo_cmk
+    kms_key_arn = var.dynamo_cmk_key_arn
+  }
+
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_dynamodb_table" "ProblemFilesTable" {
@@ -503,7 +580,14 @@ resource "aws_dynamodb_table" "ProblemFilesTable" {
     projection_type = "ALL"
   }
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" }
+  server_side_encryption {
+    enabled     = local.use_dynamo_cmk
+    kms_key_arn = var.dynamo_cmk_key_arn
+  }
+
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_dynamodb_table" "ClassificationResultsTable" {
@@ -536,7 +620,14 @@ resource "aws_dynamodb_table" "ClassificationResultsTable" {
     projection_type = "ALL"
   }
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" }
+  server_side_encryption {
+    enabled     = local.use_dynamo_cmk
+    kms_key_arn = var.dynamo_cmk_key_arn
+  }
+
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_dynamodb_table" "AllowedInfectedFilesTable" {
@@ -573,7 +664,14 @@ resource "aws_dynamodb_table" "AllowedInfectedFilesTable" {
     projection_type = "ALL"
   }
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" }
+  server_side_encryption {
+    enabled     = local.use_dynamo_cmk
+    kms_key_arn = var.dynamo_cmk_key_arn
+  }
+
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_dynamodb_table" "GroupMembershipTable" {
@@ -595,7 +693,14 @@ resource "aws_dynamodb_table" "GroupMembershipTable" {
     type = "S"
   }
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" }
+  server_side_encryption {
+    enabled     = local.use_dynamo_cmk
+    kms_key_arn = var.dynamo_cmk_key_arn
+  }
+
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_dynamodb_table" "JobsTable" {
@@ -637,7 +742,14 @@ resource "aws_dynamodb_table" "JobsTable" {
     projection_type = "ALL"
   }
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" }
+  server_side_encryption {
+    enabled     = local.use_dynamo_cmk
+    kms_key_arn = var.dynamo_cmk_key_arn
+  }
+
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_dynamodb_table" "LinkedAccountMembershipTable" {
@@ -659,7 +771,14 @@ resource "aws_dynamodb_table" "LinkedAccountMembershipTable" {
     type = "S"
   }
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" }
+  server_side_encryption {
+    enabled     = local.use_dynamo_cmk
+    kms_key_arn = var.dynamo_cmk_key_arn
+  }
+
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_dynamodb_table" "LicenseFileHistoryTable" {
@@ -681,7 +800,14 @@ resource "aws_dynamodb_table" "LicenseFileHistoryTable" {
     type = "S"
   }
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" }
+  server_side_encryption {
+    enabled     = local.use_dynamo_cmk
+    kms_key_arn = var.dynamo_cmk_key_arn
+  }
+
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_dynamodb_table" "NotificationsTable" {
@@ -725,5 +851,12 @@ resource "aws_dynamodb_table" "NotificationsTable" {
     projection_type = "ALL"
   }
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" }
+  server_side_encryption {
+    enabled     = local.use_dynamo_cmk
+    kms_key_arn = var.dynamo_cmk_key_arn
+  }
+
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" },
+    var.custom_resource_tags
+  )
 }

@@ -14,16 +14,16 @@ resource "aws_ecs_task_definition" "TaskDefinition" {
       memoryReservation      = 1024
       readonlyRootFilesystem = true
       "environment" : [
-        { "name" : "IMAGE_VERSION_CONSOLE", "value" : "${var.image_version_console}" },
-        { "name" : "IMAGE_VERSION_AGENT", "value" : "${var.image_version_agent}" },
-        { "name" : "AGENT_TASK_DEFINITION_ROLE_ARN", "value" : "${aws_iam_role.AgentTaskRole.arn}" },
-        { "name" : "APP_CONFIG_AGENT_APPLICATION_ID", "value" : "${aws_appconfig_application.AppConfigAgentApplication.id}" },
-        { "name" : "APP_CONFIG_AGENT_CONFIGURATION_PROFILE_ROLE_ARN", "value" : "${aws_iam_role.AppConfigAgentConfigurationDocumentRole.arn}" },
-        { "name" : "APP_CONFIG_AGENT_DEPLOYMENT_STRATEGY_ID", "value" : "${aws_appconfig_deployment_strategy.AppConfigAgentDeploymentStrategy.id}" },
-        { "name" : "APP_CONFIG_AGENT_ENVIRONMENT_ID", "value" : "${aws_appconfig_environment.AppConfigAgentEnvironment.environment_id}" },
-        { "name" : "EXECUTION_ROLE_ARN", "value" : "${aws_iam_role.ExecutionRole.arn}" },
-        { "name" : "EC2_CONTAINER_ROLE_ARN", "value" : "${aws_iam_instance_profile.Ec2ContainerInstanceProfile.arn}" },
-        { "name" : "CONSOLE_VPC", "value" : "${var.vpc}" },
+        { "name" : "IMAGE_VERSION_CONSOLE", "value" : var.image_version_console },
+        { "name" : "IMAGE_VERSION_AGENT", "value" : var.image_version_agent },
+        { "name" : "AGENT_TASK_DEFINITION_ROLE_ARN", "value" : aws_iam_role.AgentTaskRole.arn },
+        { "name" : "APP_CONFIG_AGENT_APPLICATION_ID", "value" : aws_appconfig_application.AppConfigAgentApplication.id },
+        { "name" : "APP_CONFIG_AGENT_CONFIGURATION_PROFILE_ROLE_ARN", "value" : aws_iam_role.AppConfigAgentConfigurationDocumentRole.arn },
+        { "name" : "APP_CONFIG_AGENT_DEPLOYMENT_STRATEGY_ID", "value" : aws_appconfig_deployment_strategy.AppConfigAgentDeploymentStrategy.id },
+        { "name" : "APP_CONFIG_AGENT_ENVIRONMENT_ID", "value" : aws_appconfig_environment.AppConfigAgentEnvironment.environment_id },
+        { "name" : "EXECUTION_ROLE_ARN", "value" : aws_iam_role.ExecutionRole.arn },
+        { "name" : "EC2_CONTAINER_ROLE_ARN", "value" : aws_iam_instance_profile.Ec2ContainerInstanceProfile.arn },
+        { "name" : "CONSOLE_VPC", "value" : var.vpc },
         { "name" : "CONSOLE_SUBNET", "value" : "${var.subnet_a_id},${var.subnet_b_id}" },
         { "name" : "PARAMETER_STORE_NAME_PREFIX", "value" : "/${var.parameter_prefix}-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "CONSOLE_SECURITY_GROUP_ID", "value" : "${var.configure_load_balancer}" ? "${aws_security_group.ContainerSecurityGroupWithLB[0].id}" : "${aws_security_group.ContainerSecurityGroup[0].id}" },
@@ -35,10 +35,10 @@ resource "aws_ecs_task_definition" "TaskDefinition" {
         { "name" : "QUARANTINE_BUCKET_NAME_PREFIX", "value" : "${var.quarantine_bucket_prefix}-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "DYNAMO_DB_TABLE_NAME_PREFIX", "value" : "${aws_appconfig_application.AppConfigAgentApplication.id}." },
         { "name" : "CLUSTER_NAME", "value" : "${aws_ecs_cluster.Cluster.name}" },
-        { "name" : "NOTIFICATIONS_TOPIC_NAME", "value" : "${aws_sns_topic.NotificationsTopic.name}" },
-        { "name" : "APP_CONFIG_DOCUMENT_NAME", "value" : "${awscc_ssm_document.AppConfigDocument.name}" },
-        { "name" : "APP_CONFIG_DOCUMENT_SCHEMA_NAME", "value" : "${awscc_ssm_document.AppConfigDocumentSchema.name}" },
-        { "name" : "APP_CONFIG_PROFILE_ID", "value" : "${aws_appconfig_configuration_profile.AppConfigProfile.configuration_profile_id}" },
+        { "name" : "NOTIFICATIONS_TOPIC_NAME", "value" : aws_sns_topic.NotificationsTopic.name },
+        { "name" : "APP_CONFIG_DOCUMENT_NAME", "value" : awscc_ssm_document.AppConfigDocument.name },
+        { "name" : "APP_CONFIG_DOCUMENT_SCHEMA_NAME", "value" : awscc_ssm_document.AppConfigDocumentSchema.name },
+        { "name" : "APP_CONFIG_PROFILE_ID", "value" : aws_appconfig_configuration_profile.AppConfigProfile.configuration_profile_id },
         { "name" : "EVENT_BASED_SCAN_TOPIC_NAME", "value" : "${var.service_name}Topic-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "EVENT_BASED_SCAN_QUEUE_NAME", "value" : "${var.service_name}Queue-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "DC_EVENT_BASED_SCAN_QUEUE_NAME", "value" : "${var.service_name}Queue-DC-${aws_appconfig_application.AppConfigAgentApplication.id}" },
@@ -46,7 +46,7 @@ resource "aws_ecs_task_definition" "TaskDefinition" {
         { "name" : "RETRO_SCAN_QUEUE_NAME", "value" : "${var.service_name}RetroQueue-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "CONSOLE_TASK_NAME", "value" : "${var.service_name}Console-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "CONSOLE_SERVICE_NAME", "value" : "${var.configure_load_balancer}" ? "${var.service_name}ConsoleService-LB-${aws_appconfig_application.AppConfigAgentApplication.id}" : "${var.service_name}ConsoleService-${aws_appconfig_application.AppConfigAgentApplication.id}" },
-        { "name" : "CONSOLE_ROLE_ARN", "value" : "${aws_iam_role.ConsoleTaskRole.arn}" },
+        { "name" : "CONSOLE_ROLE_ARN", "value" : aws_iam_role.ConsoleTaskRole.arn },
         { "name" : "EVENT_AGENT_TASK_NAME", "value" : "${var.service_name}Agent-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "DC_EVENT_AGENT_TASK_NAME", "value" : "${var.service_name}Agent-DC-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "EVENT_AGENT_SERVICE_NAME", "value" : "${var.service_name}AgentService-${aws_appconfig_application.AppConfigAgentApplication.id}" },
@@ -79,8 +79,9 @@ resource "aws_ecs_task_definition" "TaskDefinition" {
         { "name" : "AGENT_SECURITY_GROUP_NAME", "value" : "${var.service_name}AgentSecurityGroup-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "CROSS_ACCOUNT_ROLE_NAME", "value" : "${var.service_name}RemoteRole-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "CROSS_ACCOUNT_POLICY_NAME", "value" : "${var.service_name}RemotePolicy-${aws_appconfig_application.AppConfigAgentApplication.id}" },
-        { "name" : "CROSS_ACCOUNT_EVENT_BRIDGE_ROLE_NAME", "value" : "${aws_iam_role.EventBridgeRole[0].name}" },
-        { "name" : "CROSS_ACCOUNT_EVENT_BRIDGE_POLICY_NAME", "value" : "${aws_iam_policy.EventBridgePolicy.name}" },
+        { "name" : "CROSS_ACCOUNT_EVENT_BRIDGE_ROLE_NAME", "value" : aws_iam_role.EventBridgeRole[0].name },
+        { "name" : "CROSS_ACCOUNT_EVENT_BRIDGE_POLICY_NAME", "value" : aws_iam_policy.EventBridgePolicy.name },
+        { "name" : "CUSTOM_RESOURCE_TAGS", "value" : join(",", [for key, value in var.custom_resource_tags : "${key}=${value}"]) },
         { "name" : "DLP_CCL_DIR", "value" : "/cssdlp" },
         { "name" : "DLP_CCL_FILE_NAME", "value" : "PredefinedContentControlLists.xml" },
         { "name" : "PROXY_HOST", "value" : "${local.use_proxy}" ? "${var.proxy_host}" : "" },
@@ -121,5 +122,7 @@ resource "aws_ecs_task_definition" "TaskDefinition" {
       }
     }
   ])
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConsoleTaskDefinition" }
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConsoleTaskDefinition" },
+    var.custom_resource_tags
+  )
 }

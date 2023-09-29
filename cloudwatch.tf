@@ -1,6 +1,8 @@
 resource "aws_cloudwatch_log_group" "cloudwatch_logs_group" {
-  name              = "${var.service_name}.ECS.${aws_appconfig_application.AppConfigAgentApplication.id}.Console"
-  tags              = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConsoleTargetGroup" }
+  name = "${var.service_name}.ECS.${aws_appconfig_application.AppConfigAgentApplication.id}.Console"
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConsoleTargetGroup" },
+    var.custom_resource_tags
+  )
   retention_in_days = 7
 }
 

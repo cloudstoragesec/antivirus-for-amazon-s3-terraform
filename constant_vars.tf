@@ -1,17 +1,29 @@
 variable "image_version_console" {
   description = "Console version to Deploy"
-  default     = "v7.03.000"
+  default     = "v7.02.000"
 }
 
 variable "image_version_agent" {
   description = "Agent version to Deploy"
-  default     = "v7.03.000"
+  default     = "v7.02.000"
 }
 
 variable "service_name" {
   description = "Name of Service"
   type        = string
   default     = "CloudStorageSec"
+}
+
+variable "custom_resource_tags" {
+  description = "Map of custom tags to apply to resources"
+  type        = map(string)
+  default     = {}
+}
+
+variable "dynamo_cmk_key_arn" {
+  description = "ARN of the CMK that should be used for the AWS KMS encryption."
+  type        = string
+  default     = ""
 }
 
 variable "parameter_prefix" {

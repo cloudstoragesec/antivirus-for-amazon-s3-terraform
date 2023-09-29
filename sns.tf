@@ -1,6 +1,8 @@
 resource "aws_sns_topic" "NotificationsTopic" {
   name = "${var.service_name}NotificationsTopic-${aws_appconfig_application.AppConfigAgentApplication.id}"
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConsoleSnsTopic" }
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConsoleSnsTopic" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_sns_topic_policy" "NotificationsTopicPolicy" {

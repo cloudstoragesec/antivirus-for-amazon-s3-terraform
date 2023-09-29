@@ -25,7 +25,9 @@ resource "aws_security_group" "ContainerSecurityGroup" {
     description = "CloudStorageSec Console default egress to internet"
   }
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "SecurityGroup" }
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "SecurityGroup" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_security_group" "ContainerSecurityGroupWithLB" {
@@ -56,7 +58,9 @@ resource "aws_security_group" "ContainerSecurityGroupWithLB" {
     description = "CloudStorageSec Console default egress to internet"
   }
 
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "SecurityGroup" }
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "SecurityGroup" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_security_group" "LoadBalancerSecurityGroup" {
@@ -86,6 +90,8 @@ resource "aws_security_group" "LoadBalancerSecurityGroup" {
     cidr_blocks = ["0.0.0.0/0"]
     description = "CloudStorageSec Console default egress to internet"
   }
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "SecurityGroup" }
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "SecurityGroup" },
+    var.custom_resource_tags
+  )
 }
 
