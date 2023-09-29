@@ -108,6 +108,24 @@ Variables that may be desired to be overriden in the Terraform workspace:
   Valid values: `[A-Za-z0-9-_.@]{3,128}`
   Default: `admin`
 
+* **custom_resource_tags**
+  Map of custom tags to apply to created resources
+
+  Valid values: A valid Map. Example:
+  {
+    "CustomTag_A" = "Value A"
+    "CustomTag_B" = "Value B"
+  }
+  
+  Default: `{}`
+
+* **dynamo_cmk_key_arn**
+  Optional ARN for the CMK that should be used for the AWS KMS encryption if the key is different from the default KMS-managed DynamoDB key
+
+  Valid values: any valid AWS KMS CMK ARN
+  
+  Default: ``
+
 ### aws.tf
 
 The AWS provider configuration file. This file additionally contains variables that must be set for deployment.
