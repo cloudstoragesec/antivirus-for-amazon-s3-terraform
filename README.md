@@ -2,7 +2,7 @@
 
 ## Overview
 
-The deployment will create 104 AWS Resources, including:  
+The deployment will create 109 AWS Resources, including:  
 
 * ECS Service
 * ECS Task Definition
@@ -39,13 +39,7 @@ Contains variables that are required to be provided in the Terraform workspace.
   A second subnet ID within the VPC that may be used for ECS tasks for this deployment. We recommend choosing subnets in different availability zones  
 
 * **email**  
-  The email address to be used for the initial admin account created for the CSS Console  
-
-* **ssm_schema_doc_name**  
-  The name of the ssm schema document you created  
-
-* **ssm_doc_name**  
-  The name of the ssm document you created
+  The email address to be used for the initial admin account created for the CSS Console
 
 ### constant_vars.tf
 
@@ -113,6 +107,24 @@ Variables that may be desired to be overriden in the Terraform workspace:
 
   Valid values: `[A-Za-z0-9-_.@]{3,128}`
   Default: `admin`
+
+* **custom_resource_tags**
+  Map of custom tags to apply to created resources
+
+  Valid values: A valid Map. Example:
+  {
+    "CustomTag_A" = "Value A"
+    "CustomTag_B" = "Value B"
+  }
+  
+  Default: `{}`
+
+* **dynamo_cmk_key_arn**
+  Optional ARN for the CMK that should be used for the AWS KMS encryption if the key is different from the default KMS-managed DynamoDB key
+
+  Valid values: any valid AWS KMS CMK ARN
+  
+  Default: ``
 
 ### aws.tf
 

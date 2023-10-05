@@ -1,6 +1,8 @@
 resource "aws_sns_topic" "NotificationsTopic" {
   name = "${var.service_name}NotificationsTopic-${aws_appconfig_application.AppConfigAgentApplication.id}"
-  tags = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConsoleSnsTopic" }
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConsoleSnsTopic" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_sns_topic_policy" "NotificationsTopicPolicy" {
@@ -29,3 +31,15 @@ data "aws_iam_policy_document" "TopicPolicyDocument" {
     sid = "2012-10-17"
   }
 }
+
+/* https://github.com/hashicorp/terraform-provider-aws/issues/32072
+resource "aws_sns_topic_subscription" "health_check_console_alarm_subscription" {
+  protocol  = "email-json"
+  endpoint  = var.email
+  topic_arn = aws_sns_topic.NotificationsTopic.id
+  filter_policy = jsonencode({
+    "AlarmName" : [aws_cloudwatch_metric_alarm.health_check_console_alarm.arn]
+  })
+  filter_policy_scope = "MessageBody"
+}
+*/

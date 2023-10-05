@@ -6,7 +6,9 @@ resource "aws_appautoscaling_target" "AutoScalingTarget" {
   role_arn           = "arn:aws:iam::${var.aws_account}:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
-  tags               = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConsoleAutoScaling" }
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConsoleAutoScaling" },
+    var.custom_resource_tags
+  )
 }
 
 resource "aws_appautoscaling_target" "AutoScalingTargetWithLb" {
@@ -17,5 +19,7 @@ resource "aws_appautoscaling_target" "AutoScalingTargetWithLb" {
   role_arn           = "arn:aws:iam::${var.aws_account}:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
-  tags               = { (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConsoleAutoScaling" }
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConsoleAutoScaling" },
+    var.custom_resource_tags
+  )
 }

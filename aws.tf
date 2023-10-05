@@ -6,17 +6,26 @@ variable "aws_account" {
   description = "The AWS account number where resources are being deployed"
 }
 
-provider "aws" {
-  region  = var.aws_region
-  version = "~> 4.0"
-}
-
 terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
       version = "~> 4.0"
     }
-
+    awscc = {
+      source  = "hashicorp/awscc"
+      version = "~> 0.1"
+    }
   }
 }
+
+provider "awscc" {
+  region = var.aws_region
+}
+
+provider "aws" {
+  region = var.aws_region
+}
+
+
+
