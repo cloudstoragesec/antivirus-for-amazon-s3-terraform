@@ -121,6 +121,9 @@ resource "aws_iam_role_policy" "ConsoleTaskPolicy" {
           "aws-marketplace:MeterUsage",
           "cloudformation:GetTemplateSummary",
           "cloudwatch:GetMetricStatistics",
+          "ec2:AcceptVpcPeeringConnection",
+          "ec2:CreateVpcPeeringConnection",
+          "ec2:DescribeVpcPeeringConnections",
           "ec2:DescribeInternetGateways",
           "ec2:DescribeNetwork*",
           "ec2:DescribeRegions",
@@ -193,6 +196,8 @@ resource "aws_iam_role_policy" "ConsoleTaskPolicy" {
           "arn:aws:cloudwatch:*:*:alarm:*",
           "arn:aws:ec2:*::image/*",
           "arn:aws:ec2:*::volume/*",
+          "arn:aws:ec2:*::vpc-peering-connection/*",
+          "arn:aws:ec2:*::vpc/*",
           "arn:aws:ec2:*:*:*",
           "arn:aws:logs:*:*:*",
           "arn:aws:s3:::*",
@@ -489,6 +494,8 @@ resource "aws_iam_role_policy" "AgentTaskPolicy" {
         Action = [
           "aws-marketplace:MeterUsage",
           "ec2:DescribeVpcs",
+          "ec2:DescribeAvailabilityZones",
+          "elasticfilesystem:DescribeMountTargets",
           "workdocs:*Document*",
           "workdocs:*Labels",
           "workdocs:*Metadata"
