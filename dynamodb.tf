@@ -3,6 +3,7 @@ resource "aws_dynamodb_table" "css-dynamodb-table" {
   name         = "${aws_appconfig_application.AppConfigAgentApplication.id}.${var.tables[count.index].name}"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = var.tables[count.index].hash_key
+  range_key    = try(var.tables[count.index].range_key, null)
   point_in_time_recovery {
     enabled = aws_ssm_parameter.DynamoPointInTimeRecoveryEnabledParameter.value
   }
@@ -29,6 +30,7 @@ variable "tables" {
   type = list(object({
     name     = string
     hash_key = string
+    range_key = optional(string)
     attributes = list(object({
       name = string
       type = string
@@ -63,7 +65,15 @@ variable "tables" {
       attributes = [
         { name = "Region", type = "S" },
       ]
-
+    },
+    {
+      name      = "JobNetworking"
+      hash_key  = "PK"
+      range_key = "SK"
+      attributes = [
+        { name = "PK", type = "S" },
+        { name = "SK", type = "S" },
+      ]
     },
     {
       name     = "Console"
