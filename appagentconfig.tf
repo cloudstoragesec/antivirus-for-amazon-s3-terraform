@@ -71,7 +71,8 @@ resource "awscc_ssm_document" "AppConfigDocument" {
     ignore_changes = [
       # TF Tries to update tags every time and Cloud Control call times out if they are the same.
       tags,
-      requires
+      requires,
+      content
     ]
   }
 

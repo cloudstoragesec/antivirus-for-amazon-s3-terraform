@@ -513,7 +513,7 @@ resource "aws_dynamodb_table" "MonthlyScanStatisticsTable" {
   }
   attribute {
     name = "ScanEngine"
-    type = "N"
+    type = "S"
   }
 
   global_secondary_index {
@@ -727,7 +727,7 @@ resource "aws_dynamodb_table" "JobsTable" {
   }
   attribute {
     name = "ParentJobId"
-    type = "N"
+    type = "S"
   }
 
   global_secondary_index {
