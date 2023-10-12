@@ -217,3 +217,14 @@ variable "buckets_to_protect" {
   type        = string
   default     = ""
 }
+
+variable "eventbridge_notifications_enabled" {
+  type        = bool
+  default = false
+}
+
+variable "eventbridge_notifications_bus_name" {
+  description = "Enter the EventBridge bus name to use for notifications, if desired to be one other than default."
+  type        = string
+  default     = "default"
+}
