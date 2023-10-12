@@ -220,7 +220,7 @@ variable "buckets_to_protect" {
 
 variable "eventbridge_notifications_enabled" {
   type        = bool
-  description = false
+  default = false
 }
 
 variable "eventbridge_notifications_bus_name" {
