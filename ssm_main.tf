@@ -284,3 +284,21 @@ resource "aws_ssm_parameter" "CloudTrailLakeChannelArnParameter" {
     ignore_changes = [value]
   }
 }
+
+resource "aws_ssm_parameter" "EventBridgeNotificationsEnabledParameter" {
+  name  = "/${var.parameter_prefix}-${aws_appconfig_application.AppConfigAgentApplication.id}/Config/EventBridgeNotificationsEnabled"
+  type  = "String"
+  value = "${var.eventbridge_notifications_enabled}"
+  lifecycle {
+    ignore_changes = [value]
+  }
+}
+
+resource "aws_ssm_parameter" "EventBridgeNotificationsBusNameParameter" {
+  name  = "/${var.parameter_prefix}-${aws_appconfig_application.AppConfigAgentApplication.id}/Config/EventBridgeNotificationsBusName"
+  type  = "String"
+  value = var.eventbridge_notifications_bus_name
+  lifecycle {
+    ignore_changes = [value]
+  }
+}
