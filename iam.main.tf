@@ -459,9 +459,9 @@ resource "aws_iam_role_policy" "CloudTrailLakePolicy" {
   })
 }
 
-resource "aws_iam_policy" "DynamoCMKPolicy" {
-  count = local.use_dynamo_cmk ? 1 : 0
-  name  = "${var.service_name}KMSPolicy-${aws_appconfig_application.AppConfigAgentApplication.id}-DynamoCMK"
+resource "aws_iam_policy" "CustomCMKPolicy" {
+  count = (local.use_dynamo_cmk || local.use_sns_cmk) ? 1 : 0
+  name  = "${var.service_name}KMSPolicy-${aws_appconfig_application.AppConfigAgentApplication.id}-CustomCMK"
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -470,26 +470,27 @@ resource "aws_iam_policy" "DynamoCMKPolicy" {
           "kms:Encrypt",
           "kms:Decrypt",
           "kms:ReEncrypt*",
-          "kms:DescribeKey"
+          "kms:DescribeKey",
+          "kms:GenerateDataKey*"
         ]
         Effect   = "Allow"
-        Sid      = "DynamoCMK"
-        Resource = var.dynamo_cmk_key_arn
+        Sid      = "CustomCMK"
+        Resource = local.custom_key_list
       },
     ]
   })
 }
 
 resource "aws_iam_role_policy_attachment" "dynamo_cmk_console_policy_attach" {
-  count = local.use_dynamo_cmk ? 1 : 0
+  count      = (local.use_dynamo_cmk || local.use_sns_cmk) ? 1 : 0
   role       = aws_iam_role.ConsoleTaskRole.name
-  policy_arn = aws_iam_policy.DynamoCMKPolicy[0].arn
+  policy_arn = aws_iam_policy.CustomCMKPolicy[0].arn
 }
 
 resource "aws_iam_role_policy_attachment" "dynamo_cmk_agent_policy_attach" {
-  count = local.use_dynamo_cmk ? 1 : 0
+  count      = (local.use_dynamo_cmk || local.use_sns_cmk) ? 1 : 0
   role       = aws_iam_role.AgentTaskRole.name
-  policy_arn = aws_iam_policy.DynamoCMKPolicy[0].arn
+  policy_arn = aws_iam_policy.CustomCMKPolicy[0].arn
 }
 
 resource "aws_iam_role" "AgentTaskRole" {

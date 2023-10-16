@@ -9,6 +9,11 @@ locals {
   create_event_bridge_role = var.event_bridge_role_name == "Created by TF"
   use_proxy                = var.proxy_host != "none"
   is_antivirus             = var.product_mode == "AV"
-  use_dynamo_cmk           = var.dynamo_cmk_key_arn != ""
-  ecs_service_name         = var.configure_load_balancer ? aws_ecs_service.ServiceWithLB[0].name : aws_ecs_service.Service[0].name
+  use_dynamo_cmk           = var.dynamo_cmk_key_arn != null
+  use_sns_cmk              = var.sns_cmk_key_arn != null
+  custom_key_list = compact([
+    var.dynamo_cmk_key_arn,
+    var.sns_cmk_key_arn
+  ])
+  ecs_service_name = var.configure_load_balancer ? aws_ecs_service.ServiceWithLB[0].name : aws_ecs_service.Service[0].name
 }
