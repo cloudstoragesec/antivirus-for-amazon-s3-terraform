@@ -124,7 +124,14 @@ Variables that may be desired to be overriden in the Terraform workspace:
 
   Valid values: any valid AWS KMS CMK ARN
   
-  Default: ``
+  Default: null
+
+* **sns_cmk_key_arn**
+  Optional ARN for the CMK that should be used for the AWS KMS encryption for Notifications SNS topic
+
+  Valid values: any valid AWS KMS CMK ARN
+
+  Default: null
 
 ### aws.tf
 
