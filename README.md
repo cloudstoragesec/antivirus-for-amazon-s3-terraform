@@ -121,6 +121,8 @@ Variables that may be desired to be overriden in the Terraform workspace:
 
 * **dynamo_cmk_key_arn**
   Optional ARN for the CMK that should be used for the AWS KMS encryption if the key is different from the default KMS-managed DynamoDB key
+  
+  Cloud Storage Security Console and Agent IAM Roles will be given permission to use this key
 
   Valid values: any valid AWS KMS CMK ARN
   
@@ -128,6 +130,8 @@ Variables that may be desired to be overriden in the Terraform workspace:
 
 * **sns_cmk_key_arn**
   Optional ARN for the CMK that should be used for the AWS KMS encryption for Notifications SNS topic
+  
+  Cloud Storage Security Console and Agent IAM Roles will be given permission to use this key
 
   Valid values: any valid AWS KMS CMK ARN
 
