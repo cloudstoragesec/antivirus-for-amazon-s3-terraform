@@ -21,9 +21,15 @@ variable "custom_resource_tags" {
 }
 
 variable "dynamo_cmk_key_arn" {
-  description = "ARN of the CMK that should be used for the AWS KMS encryption."
+  description = "ARN of the AWS KMS key that should be used for Dynamo encryption."
   type        = string
-  default     = ""
+  default     = null
+}
+
+variable "sns_cmk_key_arn" {
+  description = "ARN of the AWS KMS key that should be used for SNS encryption."
+  type        = string
+  default     = null
 }
 
 variable "parameter_prefix" {
