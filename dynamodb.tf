@@ -1,5 +1,5 @@
 resource "aws_dynamodb_table" "css-dynamodb-table" {
-  count        = 12
+  count        = 13
   name         = "${aws_appconfig_application.AppConfigAgentApplication.id}.${var.tables[count.index].name}"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = var.tables[count.index].hash_key
