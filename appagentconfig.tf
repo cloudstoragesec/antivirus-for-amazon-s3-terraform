@@ -39,6 +39,7 @@ resource "awscc_ssm_document" "AppConfigDocumentSchema" {
   document_type   = "ApplicationConfigurationSchema"
   document_format = "JSON"
   content         = file("${path.module}/app_config_schema.json")
+  update_method   = "NewVersion"
 
   lifecycle {
     ignore_changes = [

@@ -1,5 +1,5 @@
 resource "aws_dynamodb_table" "css-dynamodb-table" {
-  count        = 13
+  count        = length(var.tables)
   name         = "${aws_appconfig_application.AppConfigAgentApplication.id}.${var.tables[count.index].name}"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = var.tables[count.index].hash_key
@@ -28,8 +28,8 @@ resource "aws_dynamodb_table" "css-dynamodb-table" {
 
 variable "tables" {
   type = list(object({
-    name     = string
-    hash_key = string
+    name      = string
+    hash_key  = string
     range_key = optional(string)
     attributes = list(object({
       name = string
@@ -64,15 +64,6 @@ variable "tables" {
       hash_key = "Region"
       attributes = [
         { name = "Region", type = "S" },
-      ]
-    },
-    {
-      name      = "JobNetworking"
-      hash_key  = "PK"
-      range_key = "SK"
-      attributes = [
-        { name = "PK", type = "S" },
-        { name = "SK", type = "S" },
       ]
     },
     {
@@ -137,9 +128,9 @@ variable "tables" {
       attributes = [
         { name = "Region", type = "S" },
       ]
-
     },
   ]
+  ## Do Not add to tables variable. Create a new DDB resource block.
 }
 
 resource "aws_dynamodb_table" "ProactiveMonitorStatusesTable" {
@@ -726,9 +717,12 @@ resource "aws_dynamodb_table" "JobsTable" {
     name = "Type"
     type = "S"
   }
-
   attribute {
     name = "Date"
+    type = "S"
+  }
+  attribute {
+    name = "EndDate"
     type = "S"
   }
   attribute {
@@ -749,6 +743,12 @@ resource "aws_dynamodb_table" "JobsTable" {
     name            = "TypeAndParentJobId"
     hash_key        = "Type"
     range_key       = "ParentJobId"
+    projection_type = "ALL"
+  }
+  global_secondary_index {
+    name            = "TypeAndEndDate"
+    hash_key        = "Type"
+    range_key       = "EndDate"
     projection_type = "ALL"
   }
 
@@ -866,6 +866,52 @@ resource "aws_dynamodb_table" "NotificationsTable" {
     kms_key_arn = var.dynamo_cmk_key_arn
   }
 
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" },
+    var.custom_resource_tags
+  )
+}
+
+resource "aws_dynamodb_table" "fsx_volumes" {
+  name         = "${aws_appconfig_application.AppConfigAgentApplication.id}.FsxVolumes"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "Id"
+  point_in_time_recovery {
+    enabled = aws_ssm_parameter.DynamoPointInTimeRecoveryEnabledParameter.value
+  }
+  attribute {
+    name = "Id"
+    type = "S"
+  }
+  server_side_encryption {
+    enabled     = local.use_dynamo_cmk
+    kms_key_arn = var.dynamo_cmk_key_arn
+  }
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" },
+    var.custom_resource_tags
+  )
+}
+
+
+resource "aws_dynamodb_table" "job_networking" {
+  name         = "${aws_appconfig_application.AppConfigAgentApplication.id}.JobNetworking"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "PK"
+  range_key    = "SK"
+  point_in_time_recovery {
+    enabled = aws_ssm_parameter.DynamoPointInTimeRecoveryEnabledParameter.value
+  }
+  attribute {
+    name = "PK"
+    type = "S"
+  }
+  attribute {
+    name = "SK"
+    type = "S"
+  }
+  server_side_encryption {
+    enabled     = local.use_dynamo_cmk
+    kms_key_arn = var.dynamo_cmk_key_arn
+  }
   tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" },
     var.custom_resource_tags
   )

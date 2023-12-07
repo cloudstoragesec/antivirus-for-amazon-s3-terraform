@@ -22,7 +22,9 @@
     "scanTagsExcluded": {
       "type": "array",
       "description": "Scan tags to not be added to scanned objects",
-      "items": { "type": "string" },
+      "items": {
+        "type": "string"
+      },
       "uniqueItems": true,
       "additionalProperties": false
     },
@@ -33,44 +35,86 @@
     "classificationTagsExcluded": {
       "type": "array",
       "description": "Classification tags to not be added to classified objects",
-      "items": { "type": "string" },
+      "items": {
+        "type": "string"
+      },
       "uniqueItems": true,
       "additionalProperties": false
     },
     "avEventProtectedBuckets": {
       "type": "array",
-      "items": { "type": "string" },
+      "items": {
+        "type": "string"
+      },
       "uniqueItems": true,
       "additionalProperties": false
     },
     "avScheduledBuckets": {
       "type": "array",
-      "items": { "type": "string" },
+      "items": {
+        "type": "string"
+      },
       "uniqueItems": true,
       "additionalProperties": false
     },
     "efsClassificationRuleSets": {
       "type": "object",
       "patternProperties": {
-        "^[a-zA-Z]+$": { "type": "array", "items": { "type": "string" }, "additionalProperties": false }
+        "^[a-zA-Z]+$": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "additionalProperties": false
+        }
       }
     },
     "dcEventBucketRuleSets": {
       "type": "object",
       "patternProperties": {
-        "^[a-zA-Z]+$": { "type": "array", "items": { "type": "string" }, "additionalProperties": false }
+        "^[a-zA-Z]+$": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "additionalProperties": false
+        }
       }
     },
     "ebsClassificationRuleSets": {
       "type": "object",
       "patternProperties": {
-        "^[a-zA-Z]+$": { "type": "array", "items": { "type": "string" }, "additionalProperties": false }
+        "^[a-zA-Z]+$": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "fsxClassificationRuleSets": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-zA-Z]+$": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "additionalProperties": false
+        }
       }
     },
     "classificationRuleSets": {
       "type": "object",
       "patternProperties": {
-        "^[a-zA-Z]+$": { "type": "array", "items": { "type": "string" }, "additionalProperties": false }
+        "^[a-zA-Z]+$": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "additionalProperties": false
+        }
       }
     },
     "objectTagKeys": {
@@ -87,13 +131,34 @@
         "classificationErrorMessage"
       ],
       "properties": {
-        "result": { "type": "string", "description": "The tag key for scan results." },
-        "dateScanned": { "type": "string", "description": "The tag key for the scan date." },
-        "virusName": { "type": "string", "description": "The tag key for the virus name." },
-        "virusUploadedBy": { "type": "string", "description": "The tag key for who uploaded the virus." },
-        "errorMessage": { "type": "string", "description": "The tag key for the error message." },
-        "classificationResult": { "type": "string", "description": "The tag key for classification results." },
-        "dateClassified": { "type": "string", "description": "The tag key for the classification date." },
+        "result": {
+          "type": "string",
+          "description": "The tag key for scan results."
+        },
+        "dateScanned": {
+          "type": "string",
+          "description": "The tag key for the scan date."
+        },
+        "virusName": {
+          "type": "string",
+          "description": "The tag key for the virus name."
+        },
+        "virusUploadedBy": {
+          "type": "string",
+          "description": "The tag key for who uploaded the virus."
+        },
+        "errorMessage": {
+          "type": "string",
+          "description": "The tag key for the error message."
+        },
+        "classificationResult": {
+          "type": "string",
+          "description": "The tag key for classification results."
+        },
+        "dateClassified": {
+          "type": "string",
+          "description": "The tag key for the classification date."
+        },
         "classificationMatches": {
           "type": "string",
           "description": "The tag key for the list of classification matches found."
@@ -106,38 +171,68 @@
     },
     "quarantine": {
       "type": "object",
-      "required": ["action", "moveBucketPrefix"],
+      "required": [
+        "action",
+        "moveBucketPrefix"
+      ],
       "properties": {
         "action": {
           "type": "string",
           "pattern": "Keep|Move|Delete",
           "description": "Action to take on an object upon a virus being detected."
         },
-        "moveBucketPrefix": { "type": "string", "description": "Bucket to move infected objects to." }
+        "moveBucketPrefix": {
+          "type": "string",
+          "description": "Bucket to move infected objects to."
+        }
       }
     },
     "scanList": {
       "type": "object",
       "patternProperties": {
-        "^[a-zA-Z]+$": { "type": "array", "items": { "type": "string" }, "additionalProperties": false }
+        "^[a-zA-Z]+$": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "additionalProperties": false
+        }
       }
     },
     "skipList": {
       "type": "object",
       "patternProperties": {
-        "^[a-zA-Z]+$": { "type": "array", "items": { "type": "string" }, "additionalProperties": false }
+        "^[a-zA-Z]+$": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "additionalProperties": false
+        }
       }
     },
     "classifyList": {
       "type": "object",
       "patternProperties": {
-        "^[a-zA-Z]+$": { "type": "array", "items": { "type": "string" }, "additionalProperties": false }
+        "^[a-zA-Z]+$": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "additionalProperties": false
+        }
       }
     },
     "classifySkipList": {
       "type": "object",
       "patternProperties": {
-        "^[a-zA-Z]+$": { "type": "array", "items": { "type": "string" }, "additionalProperties": false }
+        "^[a-zA-Z]+$": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "additionalProperties": false
+        }
       }
     },
     "twoBucketConfig": {
@@ -149,7 +244,10 @@
             "^(us(-gov)?|af|ap|ca|cn|eu|me|sa)-(central|(north|south)?(east|west)?)-[1-9]$": {
               "type": "object",
               "properties": {
-                "destinationBucket": { "type": "string", "description": "The bucket to move files to" },
+                "destinationBucket": {
+                  "type": "string",
+                  "description": "The bucket to move files to"
+                },
                 "destinationPrefix": {
                   "type": "string",
                   "description": "The prefix to use within the destination bucket"
@@ -158,7 +256,6 @@
               "additionalProperties": false
             }
           },
-          "uniqueItems": true,
           "additionalProperties": false
         },
         "buckets": {
@@ -167,7 +264,10 @@
             "^[a-zA-Z0-9-._]{1,255}$": {
               "type": "object",
               "properties": {
-                "destinationBucket": { "type": "string", "description": "The bucket to move files to" },
+                "destinationBucket": {
+                  "type": "string",
+                  "description": "The bucket to move files to"
+                },
                 "destinationPrefix": {
                   "type": "string",
                   "description": "The prefix to use within the destination bucket"
@@ -176,11 +276,10 @@
               "additionalProperties": false
             }
           },
-          "uniqueItems": true,
           "additionalProperties": false
-        },
-        "additionalProperties": false
-      }
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": false
