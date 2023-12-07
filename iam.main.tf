@@ -838,3 +838,15 @@ resource "aws_iam_policy" "proactive_notifications_event_bridge" {
     ]
   })
 }
+
+resource "aws_iam_role_policy_attachment" "custom_event_bridge_console_policy_attach" {
+  count      = local.eventbridge_notifications_enabled ? 1 : 0
+  role       = aws_iam_role.ConsoleTaskRole.name
+  policy_arn = aws_iam_policy.proactive_notifications_event_bridge[0].arn
+}
+
+resource "aws_iam_role_policy_attachment" "custom_event_bridge_agent_policy_attach" {
+  count      = local.eventbridge_notifications_enabled? 1 : 0
+  role       = aws_iam_role.AgentTaskRole.name
+  policy_arn = aws_iam_policy.proactive_notifications_event_bridge[0].arn
+}
