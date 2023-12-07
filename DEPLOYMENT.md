@@ -20,7 +20,7 @@ Our primary listing may be found at the link below. Click `Continue to Subscribe
 
 _**Note**: This deployment guide assumes you will download releases for deployment. You may use other options as necessary._
 
-* Visit the [Releases](https://github.com/cloudstoragesec/antivirus-for-amazon-s3-terraform/releases) page to download the latest stable release.
+* Visit the [Releases](https://github.com/cloudstoragesec/antivirus-for-amazon-s3-terraform/releases/latest) page to download the latest stable release.
 
 ### AWS Credentials
 

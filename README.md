@@ -20,7 +20,7 @@ The deployment will create 109 AWS Resources, including:
 
 ## Latest Release
 
-The latest stable release can be found on our [Releases](https://github.com/cloudstoragesec/antivirus-for-amazon-s3-terraform/releases) page. Check there for the most up-to-date features, improvements, and bug fixes.
+The latest stable release can be found on our [Releases](https://github.com/cloudstoragesec/antivirus-for-amazon-s3-terraform/releases/latest) page. Check there for the most up-to-date features, improvements, and bug fixes.
 Refer to the [deployment guide](DEPLOYMENT.md) for detailed directions.
 
 ## File Definitions
