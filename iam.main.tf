@@ -125,6 +125,7 @@ resource "aws_iam_role_policy" "ConsoleTaskPolicy" {
           "ec2:CreateVpcPeeringConnection",
           "ec2:DescribeVpcPeeringConnections",
           "ec2:DescribeInternetGateways",
+          "ec2:DescribeInstances",
           "ec2:DescribeNetwork*",
           "ec2:DescribeRegions",
           "ec2:DescribeRouteTables",
@@ -140,6 +141,9 @@ resource "aws_iam_role_policy" "ConsoleTaskPolicy" {
           "ecs:*TaskDefinition*",
           "ecs:ListTasks",
           "ecs:RunTask",
+          "fsx:DescribeFileSystems",
+          "fsx:DescribeVolumes",
+          "fsx:DescribeStorageVirtualMachines",
           "workdocs:*Document*",
           "workdocs:*Labels",
           "workdocs:*Metadata",
@@ -159,6 +163,7 @@ resource "aws_iam_role_policy" "ConsoleTaskPolicy" {
           "ec2:DescribeTags",
           "ec2:CreateVolume",
           "ec2:DeleteVolume",
+          "ec2:ModifyNetworkInterfaceAttribute",
           "logs:CreateLogStream",
           "logs:DescribeLog*",
           "logs:FilterLogEvents",
@@ -184,6 +189,7 @@ resource "aws_iam_role_policy" "ConsoleTaskPolicy" {
           "elasticfilesystem:TagResource",
           "elasticfilesystem:UntagResource",
           "elasticfilesystem:ListTagsForResource",
+          "elasticfilesystem:ModifyMountTargetSecurityGroups",
           "sns:ListSubscriptions*",
           "sns:ListTopics",
           "sns:Subscribe",
@@ -303,6 +309,7 @@ resource "aws_iam_role_policy" "ConsoleTaskPolicy" {
           "arn:aws:ecs:*:*:task-definition/*${aws_appconfig_application.AppConfigAgentApplication.id}*",
           "arn:aws:events:*:*:*/*${aws_appconfig_application.AppConfigAgentApplication.id}*",
           "arn:aws:events:*:*:*/default",
+          "arn:aws:events:*:*:event-bus/${var.eventbridge_notifications_bus_name}",
           "arn:aws:events:*:*:rule/*",
           "arn:aws:iam::*:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService",
           "arn:aws:s3:::*${aws_appconfig_application.AppConfigAgentApplication.id}-*",
@@ -810,4 +817,36 @@ resource "aws_iam_policy" "EventBridgePolicy" {
 resource "aws_iam_role_policy_attachment" "event_bridge_policy_attach" {
   role       = local.create_event_bridge_role ? aws_iam_role.EventBridgeRole[0].name : var.event_bridge_role_name
   policy_arn = aws_iam_policy.EventBridgePolicy.arn
+}
+
+resource "aws_iam_policy" "proactive_notifications_event_bridge" {
+  count = local.eventbridge_notifications_enabled ? 1 : 0
+  name  = "ProactiveNotificationsEventBridgePolicy-${aws_appconfig_application.AppConfigAgentApplication.id}"
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "PutEvents${aws_appconfig_application.AppConfigAgentApplication.id}"
+        Effect = "Allow"
+        Action = [
+          "events:PutEvents"
+        ]
+        Resource = [
+          "arn:aws:events:*:${var.aws_account}:event-bus/*${var.eventbridge_notifications_bus_name}"
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "custom_event_bridge_console_policy_attach" {
+  count      = local.eventbridge_notifications_enabled ? 1 : 0
+  role       = aws_iam_role.ConsoleTaskRole.name
+  policy_arn = aws_iam_policy.proactive_notifications_event_bridge[0].arn
+}
+
+resource "aws_iam_role_policy_attachment" "custom_event_bridge_agent_policy_attach" {
+  count      = local.eventbridge_notifications_enabled? 1 : 0
+  role       = aws_iam_role.AgentTaskRole.name
+  policy_arn = aws_iam_policy.proactive_notifications_event_bridge[0].arn
 }

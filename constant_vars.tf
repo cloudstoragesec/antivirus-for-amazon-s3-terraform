@@ -1,13 +1,3 @@
-variable "image_version_console" {
-  description = "Console version to Deploy"
-  default     = "v7.02.000"
-}
-
-variable "image_version_agent" {
-  description = "Agent version to Deploy"
-  default     = "v7.02.000"
-}
-
 variable "service_name" {
   description = "Name of Service"
   type        = string
@@ -222,11 +212,6 @@ variable "buckets_to_protect" {
   description = "Enter any pre-existing buckets that you would like to automatically enable event-based protection on. Bucket names must be separated by commas (e.g. bucket1,bucket2,bucket3). Protected buckets can be managed after deployment in the CSS Console."
   type        = string
   default     = ""
-}
-
-variable "eventbridge_notifications_enabled" {
-  type        = bool
-  default = false
 }
 
 variable "eventbridge_notifications_bus_name" {

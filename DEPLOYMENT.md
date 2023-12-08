@@ -18,9 +18,9 @@ Our primary listing may be found at the link below. Click `Continue to Subscribe
 
 ### GitHub Repository
 
-_**Note**: This deployment guide assumes you will utilize a GitHub repository to synchronize deployments. You may use other options as necessary._
+_**Note**: This deployment guide assumes you will download releases for deployment. You may use other options as necessary._
 
-* Create a fork of this repository into your organization or personal account
+* Visit the [Releases](https://github.com/cloudstoragesec/antivirus-for-amazon-s3-terraform/releases/latest) page to download the latest stable release.
 
 ### AWS Credentials
 

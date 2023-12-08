@@ -21,7 +21,7 @@ resource "aws_cloudwatch_metric_alarm" "health_check_console_alarm" {
   dimensions = {
     ClusterName = aws_ecs_cluster.Cluster.name,
     ServiceName = local.ecs_service_name,
-    Version     = var.image_version_console
+    Version     = local.image_version_console
   }
 
   alarm_actions = [
@@ -33,4 +33,12 @@ resource "aws_cloudwatch_metric_alarm" "health_check_console_alarm" {
   ok_actions = [
     aws_sns_topic.NotificationsTopic.id
   ]
+}
+
+resource "aws_cloudwatch_event_bus" "proactive_notifications" {
+  count = local.eventbridge_notifications_enabled ? 1 : 0
+  name  = var.eventbridge_notifications_bus_name
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "ConsoleTargetGroup" },
+    var.custom_resource_tags
+  )
 }

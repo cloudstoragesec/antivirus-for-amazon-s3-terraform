@@ -288,7 +288,7 @@ resource "aws_ssm_parameter" "CloudTrailLakeChannelArnParameter" {
 resource "aws_ssm_parameter" "EventBridgeNotificationsEnabledParameter" {
   name  = "/${var.parameter_prefix}-${aws_appconfig_application.AppConfigAgentApplication.id}/Config/EventBridgeNotificationsEnabled"
   type  = "String"
-  value = "${var.eventbridge_notifications_enabled}"
+  value = tostring(local.eventbridge_notifications_enabled)
   lifecycle {
     ignore_changes = [value]
   }

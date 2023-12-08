@@ -11,11 +11,12 @@ resource "aws_ecs_task_definition" "TaskDefinition" {
       name                   = "${var.service_name}Console-${aws_appconfig_application.AppConfigAgentApplication.id}"
       image                  = "${local.console_image_url}"
       cpu                    = 512
+      memory                 = 1024
       memoryReservation      = 1024
       readonlyRootFilesystem = true
       "environment" : [
-        { "name" : "IMAGE_VERSION_CONSOLE", "value" : var.image_version_console },
-        { "name" : "IMAGE_VERSION_AGENT", "value" : var.image_version_agent },
+        { "name" : "IMAGE_VERSION_CONSOLE", "value" : local.image_version_console },
+        { "name" : "IMAGE_VERSION_AGENT", "value" : local.image_version_agent },
         { "name" : "AGENT_TASK_DEFINITION_ROLE_ARN", "value" : aws_iam_role.AgentTaskRole.arn },
         { "name" : "APP_CONFIG_AGENT_APPLICATION_ID", "value" : aws_appconfig_application.AppConfigAgentApplication.id },
         { "name" : "APP_CONFIG_AGENT_CONFIGURATION_PROFILE_ROLE_ARN", "value" : aws_iam_role.AppConfigAgentConfigurationDocumentRole.arn },
@@ -54,6 +55,7 @@ resource "aws_ecs_task_definition" "TaskDefinition" {
         { "name" : "EFS_AGENT_TASK_NAME", "value" : "${var.service_name}Agent-EFS-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "EBS_AGENT_TASK_NAME", "value" : "${var.service_name}Agent-EBS-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "EBS_DC_AGENT_TASK_NAME", "value" : "${var.service_name}Agent-EBS-DC-${aws_appconfig_application.AppConfigAgentApplication.id}" },
+        { "name" : "EC2_SCAN_TASK_NAME", "value" : "${var.service_name}-EC2Scan-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "LARGE_FILE_AGENT_TASK_NAME", "value" : "${var.service_name}LargeFileAgent-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "API_AGENT_TASK_NAME", "value" : "${var.service_name}ApiAgent-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "API_AGENT_SERVICE_NAME", "value" : "${var.service_name}ApiAgentService-${aws_appconfig_application.AppConfigAgentApplication.id}" },
@@ -77,6 +79,8 @@ resource "aws_ecs_task_definition" "TaskDefinition" {
         { "name" : "REMOVE_RETRO_AGENTS_SCALING_POLICY_NAME", "value" : "RemoveRetroAgents-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "SET_RETRO_AGENTS_SCALING_POLICY_NAME", "value" : "SetRetroAgents-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "AGENT_SECURITY_GROUP_NAME", "value" : "${var.service_name}AgentSecurityGroup-${aws_appconfig_application.AppConfigAgentApplication.id}" },
+        { "name" : "EFS_SCAN_SECURITY_GROUP_NAME", "value" : "${var.service_name}EFSScan-${aws_appconfig_application.AppConfigAgentApplication.id}" },
+        { "name" : "FSX_SCAN_SECURITY_GROUP_NAME", "value" : "${var.service_name}FSxScan-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "CROSS_ACCOUNT_ROLE_NAME", "value" : "${var.service_name}RemoteRole-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "CROSS_ACCOUNT_POLICY_NAME", "value" : "${var.service_name}RemotePolicy-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "CROSS_ACCOUNT_EVENT_BRIDGE_ROLE_NAME", "value" : aws_iam_role.EventBridgeRole[0].name },
