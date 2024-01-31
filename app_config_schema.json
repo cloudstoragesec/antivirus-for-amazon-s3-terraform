@@ -81,6 +81,22 @@
         }
       }
     },
+    "dcScheduledBucketRuleSets":
+    {
+      "type": "object",
+      "patternProperties":
+      {
+        "^[a-zA-Z]+$":
+        {
+          "type": "array",
+          "items":
+          {
+            "type": "string"
+          },
+          "additionalProperties": false
+        }
+      }
+    },
     "ebsClassificationRuleSets": {
       "type": "object",
       "patternProperties": {
