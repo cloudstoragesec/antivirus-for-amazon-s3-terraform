@@ -2,7 +2,7 @@ locals {
   # Terraform module and the associated app version are tightly coupled for compatibility. 
   # Specified 'image_version' corresponds to a tested combination of Terraform and app release.
   # Avoid manually changing the 'image_version' unless you have explicit instructions to do so.
-  image_version_console = "v7.05.000"
+  image_version_console = "v7.05.001"
   image_version_agent   = "v7.05.000"
   console_image_url     = "${var.ecr_account}.dkr.ecr.${var.aws_region}.amazonaws.com/cloudstoragesecurity/console:${local.image_version_console}"
   agent_image_url       = "${var.ecr_account}.dkr.ecr.${var.aws_region}.amazonaws.com/cloudstoragesecurity/agent:${local.image_version_agent}"
