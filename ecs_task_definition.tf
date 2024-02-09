@@ -95,6 +95,8 @@ resource "aws_ecs_task_definition" "TaskDefinition" {
         { "name" : "DEPLOYMENT_TYPE", "value" : "terraform" },
         { "name" : "BUCKETS_TO_PROTECT", "value" : "${var.buckets_to_protect}" },
         { "name" : "LOG_LEVEL", "value" : "Info" },
+        { "name" : "RETRY_COUNT", "value" : "5" },
+        { "name" : "RETRY_MEDIAN_JITTER_DELAY", "value" : "1" },
       ]
       essential = true
       portMappings = [
