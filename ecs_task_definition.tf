@@ -80,6 +80,7 @@ resource "aws_ecs_task_definition" "TaskDefinition" {
         { "name" : "SET_RETRO_AGENTS_SCALING_POLICY_NAME", "value" : "SetRetroAgents-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "AGENT_SECURITY_GROUP_NAME", "value" : "${var.service_name}AgentSecurityGroup-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "EFS_SCAN_SECURITY_GROUP_NAME", "value" : "${var.service_name}EFSScan-${aws_appconfig_application.AppConfigAgentApplication.id}" },
+        { "name" : "EBS_SCAN_SECURITY_GROUP_NAME", "value" : "${var.service_name}EBSScan-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "FSX_SCAN_SECURITY_GROUP_NAME", "value" : "${var.service_name}FSxScan-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "CROSS_ACCOUNT_ROLE_NAME", "value" : "${var.service_name}RemoteRole-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "CROSS_ACCOUNT_POLICY_NAME", "value" : "${var.service_name}RemotePolicy-${aws_appconfig_application.AppConfigAgentApplication.id}" },
