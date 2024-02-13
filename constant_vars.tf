@@ -46,6 +46,12 @@ variable "configure_load_balancer" {
   default     = false
 }
 
+variable "trusted_load_balancer_network" {
+  description = "If you are using your own load balancer, enter the trusted IP address range (CIDR notation) that will be routing traffic to the Console"
+  type        = string
+  default     = ""
+}
+
 variable "lb_cert_arn" {
   description = "The certificate arn to use for the load balancer. Required if `configure_load_balancer` is true"
   type        = string
