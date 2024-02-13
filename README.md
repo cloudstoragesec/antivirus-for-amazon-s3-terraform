@@ -81,6 +81,12 @@ Variables that may be desired to be overriden in the Terraform workspace:
   Valid values: `true`, `false`  
   Default: `false`  
 
+* **trusted_load_balancer_network**  
+  If you are using your own load balancer or other appliance to forward traffic to the Console, enter the trusted IP address range (CIDR notation) that will be routing traffic to the Console. Leave blank if you are not supplying your own load balancer.
+
+  Valid values: `((\d{1,3})\.){3}\d{1,3}/\d{1,2}`  
+  Default: ``
+
 * **lb_cert_arn**
   The certificate ARN that should be used for the load balancer. Only required if `configure_load_balancer` is set to `true`.
 

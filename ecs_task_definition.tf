@@ -32,6 +32,7 @@ resource "aws_ecs_task_definition" "TaskDefinition" {
         { "name" : "BYOL_MODE", "value" : "False" },
         { "name" : "BLANKET_KMS_ACCESS", "value" : "${tostring(local.blanket_kms_access)}" },
         { "name" : "HAS_LOAD_BALANCER", "value" : "${tostring(var.configure_load_balancer)}" },
+        { "name" : "TRUSTED_LOAD_BALANCER_NETWORK", "value" : "${tostring(var.trusted_load_balancer_network)}" },
         { "name" : "INFO_OPT_OUT", "value" : "${tostring(var.info_opt_out)}" },
         { "name" : "QUARANTINE_BUCKET_NAME_PREFIX", "value" : "${var.quarantine_bucket_prefix}-${aws_appconfig_application.AppConfigAgentApplication.id}" },
         { "name" : "DYNAMO_DB_TABLE_NAME_PREFIX", "value" : "${aws_appconfig_application.AppConfigAgentApplication.id}." },
