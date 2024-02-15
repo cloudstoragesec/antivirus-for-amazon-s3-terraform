@@ -52,6 +52,12 @@ variable "trusted_load_balancer_network" {
   default     = ""
 }
 
+variable "existing_target_group_arn" {
+  description = "If you are using your own AWS load balancer, provide the Target Group ARN that the Console service should register with. If configured, 'configure_load_balancer' must be 'true', and 'trusted_load_balancer_network' must be specified."
+  type        = string
+  default     = ""
+}
+
 variable "lb_cert_arn" {
   description = "The certificate arn to use for the load balancer. Required if `configure_load_balancer` is true"
   type        = string
