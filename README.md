@@ -87,6 +87,11 @@ Variables that may be desired to be overriden in the Terraform workspace:
   Valid values: `((\d{1,3})\.){3}\d{1,3}/\d{1,2}`  
   Default: ``
 
+* **existing_target_group_arn**  
+  If you are using your own AWS load balancer, provide the ARN of an existing target group. The console will create the service, registering with this target group.
+
+  If specifying this, `configure_load_balancer` must be `true`, and `trusted_load_balancer_network` must be specified.
+
 * **lb_cert_arn**
   The certificate ARN that should be used for the load balancer. Only required if `configure_load_balancer` is set to `true`.
 
