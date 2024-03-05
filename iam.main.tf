@@ -190,6 +190,7 @@ resource "aws_iam_role_policy" "ConsoleTaskPolicy" {
           "elasticfilesystem:UntagResource",
           "elasticfilesystem:ListTagsForResource",
           "elasticfilesystem:ModifyMountTargetSecurityGroups",
+          "servicequotas:GetServiceQuota",
           "sns:ListSubscriptions*",
           "sns:ListTopics",
           "sns:Subscribe",
@@ -209,6 +210,7 @@ resource "aws_iam_role_policy" "ConsoleTaskPolicy" {
           "arn:aws:s3:::*",
           "arn:aws:elasticfilesystem:*:*:file-system",
           "arn:aws:elasticfilesystem:*:*:file-system/*",
+          "arn:aws:servicequotas:*:*:ebs/L-D18FCD1D",
           "arn:aws:sns:*:*:*",
           "arn:aws:sqs:*:*:*"
         ]
