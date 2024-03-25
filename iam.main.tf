@@ -171,6 +171,8 @@ resource "aws_iam_role_policy" "ConsoleTaskPolicy" {
           "logs:GetQueryResults",
           "logs:PutLogEvents",
           "logs:*Query",
+          "logs:ListTagsForResource",
+          "logs:TagResource",
           "s3:CreateBucket",
           "s3:GetBucket*",
           "s3:Get*Configuration",
