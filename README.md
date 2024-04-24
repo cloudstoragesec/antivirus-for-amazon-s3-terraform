@@ -12,7 +12,7 @@ To assist users who haven't migrated yet and facilitate the migration process, y
 * **Copy the `moved_resources.tf` File**: 
   * Copy moved_resources.tf to the same location as the TF files from antivirus-for-amazon-s3-terraform module
   * If your Cloud Storage Security module has a different name, update the `to` paths in the `moved {}` blocks accordingly. `moved_resources.tf` assumes that the Cloud Storage Security module is named "cloud-storage-security".
-* ** Delete old resources:
+* **Delete old resources**:
   * Delete all TF files from antivirus-for-amazon-s3-terraform module except for moved_resources.tf
 * **Initialize the new Module**: Run `terraform init`.
 * **Check Terraform Plan**: Run `terraform plan`.
@@ -20,7 +20,8 @@ To assist users who haven't migrated yet and facilitate the migration process, y
 * **Apply Changes**: Execute `terraform apply` to implement the changes. 
   * You might get a Error: creating SSM Document (CloudStorageSecConfig-Schema-xxx): DocumentAlreadyExists due to deletion/re-creation timing.
     If that happens it will resolve itself on a re-apply
-* After the CSS console is confirmed to be running (UI is loading), moved_resources.tf can be removed feel free to delete `moved_resources.tf` since the resources have been migrated to new state.
+* After the CSS console is confirmed to be running (UI is loading), moved_resources.tf can be removed.
+  * Feel free to delete `moved_resources.tf` since the resources have been migrated to new state.
 
 ### Usage Example
 ```hcl
