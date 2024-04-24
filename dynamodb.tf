@@ -916,3 +916,23 @@ resource "aws_dynamodb_table" "job_networking" {
     var.custom_resource_tags
   )
 }
+
+resource "aws_dynamodb_table" "classification_custom_rules" {
+  name         = "${aws_appconfig_application.AppConfigAgentApplication.id}.ClassificationCustomRules"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "Id"
+  point_in_time_recovery {
+    enabled = aws_ssm_parameter.DynamoPointInTimeRecoveryEnabledParameter.value
+  }
+  attribute {
+    name = "Id"
+    type = "S"
+  }
+  server_side_encryption {
+    enabled     = local.use_dynamo_cmk
+    kms_key_arn = var.dynamo_cmk_key_arn
+  }
+  tags = merge({ (join("-", ["${var.service_name}", "${aws_appconfig_application.AppConfigAgentApplication.id}"])) = "DynamoTable" },
+    var.custom_resource_tags
+  )
+}

@@ -5,6 +5,7 @@
     "classificationTaggingEnabled": true,
     "classificationTagsExcluded":
     [],
+    "classificationCustomRulesLastUpdated": "",
     "objectTagKeys":
     {
         "result": "scan-result",
