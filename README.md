@@ -12,7 +12,7 @@ To assist users who haven't migrated yet and facilitate the migration process, y
 * **Copy the `moved_resources.tf` File**: 
   * Copy moved_resources.tf to the same location as the TF files from antivirus-for-amazon-s3-terraform module
   * If your Cloud Storage Security module has a different name, update the `to` paths in the `moved {}` blocks accordingly. `moved_resources.tf` assumes that the Cloud Storage Security module is named "cloud-storage-security".
-* ** Delete dld resources:
+* ** Delete old resources:
   * Delete all TF files from antivirus-for-amazon-s3-terraform module except for moved_resources.tf
 * **Initialize the new Module**: Run `terraform init`.
 * **Check Terraform Plan**: Run `terraform plan`.
